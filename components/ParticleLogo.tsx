@@ -74,8 +74,10 @@ export default function ParticleLogo() {
         ax: Math.cos(a) * r,
         ay: Math.sin(a) * r * 0.8,
         depth: 0.25 + rand() * 0.75,
-        size: rand() < 0.86 ? 1.3 : 2.3,
-        alpha: 0.5 + rand() * 0.5,
+        size: rand() < 0.86 ? 1.2 : 2,
+        // atmospheric, not a centrepiece: the page is text now, and the
+        // cloud sits directly behind it
+        alpha: 0.14 + rand() * 0.2,
         c,
       });
     };
@@ -112,7 +114,7 @@ export default function ParticleLogo() {
       canvas!.width = Math.round(w * dpr);
       canvas!.height = Math.round(h * dpr);
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      radius = Math.min(w * 0.34, h * 0.46);
+      radius = Math.min(w * 0.26, h * 0.3);
     }
 
     let pxTarget = 0;

@@ -7,7 +7,14 @@
 
 export const site = {
   name: "Sajmal", // ← EDIT: your full name
+  handle: "@sajmal", // ← EDIT: shown as the page's title line
   role: "React Native Developer",
+
+  /** Two short lines under the name. Lower case, plain, no pitch. */
+  intro:
+    "react native developer. i build cross-platform mobile apps and take them all the way to the store — architecture, delivery, submission, and the unglamorous parts in between.",
+  introSecondary:
+    "nine apps live on google play across HR, edtech, messaging and commerce — two of them serving workforces of 10,000+. available for contract and freelance work.",
 
   /** The one line that does the most work on the whole site. */
   headline: "I build and ship React Native apps that reach real users.",
@@ -39,6 +46,19 @@ export const site = {
   /** Domain you'll deploy to — used for SEO metadata. */
   url: "https://example.com", // ← EDIT
 };
+
+/**
+ * The "work (gets paid)" rows. Only things that are actually true —
+ * add roles here as they happen.
+ */
+export const work = [
+  {
+    title: "react native developer",
+    meta: "freelance / contract",
+    body: "building and shipping cross-platform apps for clients across HR, edtech, messaging and commerce — from empty repo through to store release.",
+    href: "",
+  },
+]; // ← EDIT
 
 export const services = [
   {

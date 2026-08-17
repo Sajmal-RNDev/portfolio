@@ -1,266 +1,100 @@
-import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
-import WorkGallery from "@/components/WorkGallery";
-import { apps, domains } from "@/content/apps";
-import { site, services, skills, testimonials } from "@/content/site";
-
-function Section({
-  id,
-  eyebrow,
-  title,
-  lede,
-  children,
-}: {
-  id?: string;
-  eyebrow: string;
-  title: string;
-  lede?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-20 py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          {eyebrow}
-        </p>
-        <h2 className="display mt-3 text-3xl font-bold sm:text-5xl">{title}</h2>
-        {lede && (
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
-            {lede}
-          </p>
-        )}
-        <div className="mt-12">{children}</div>
-      </div>
-    </section>
-  );
-}
+import Directory, { type Group } from "@/components/Directory";
+import ThemeToggle from "@/components/ThemeToggle";
+import { apps } from "@/content/apps";
+import { site, services, work } from "@/content/site";
 
 export default function Home() {
   const { links } = site;
 
+  const socials = [
+    { label: "email", href: `mailto:${site.email}` },
+    site.phone
+      ? { label: "phone", href: `tel:${site.phone.replace(/\s/g, "")}` }
+      : null,
+    links.github ? { label: "github", href: links.github } : null,
+    links.linkedin ? { label: "linkedin", href: links.linkedin } : null,
+    links.x ? { label: "twitter", href: links.x } : null,
+    links.resume ? { label: "résumé", href: links.resume } : null,
+  ].filter(Boolean) as { label: string; href: string }[];
+
+  const groups: Group[] = [
+    {
+      key: "work",
+      label: "work (gets paid)",
+      rows: work.map((w) => ({
+        title: w.title,
+        meta: w.meta,
+        body: w.body,
+        href: w.href || undefined,
+      })),
+    },
+    {
+      key: "apps",
+      label: "apps (live on google play)",
+      rows: apps.map((a) => ({
+        title: a.name.toLowerCase(),
+        meta: `${a.installs} · ${a.domain.toLowerCase()}`,
+        // body keeps its original case, so Open edX / WhatsApp / iOS survive.
+        // No trailing stop — clients like "… Pvt. Ltd." already end in one.
+        body: `${a.tagline} — built for ${a.client}`,
+        href: a.storeUrl,
+      })),
+    },
+    {
+      key: "services",
+      label: "services (what i take on)",
+      rows: services.map((s) => ({
+        title: s.title.toLowerCase(),
+        body: s.body,
+      })),
+    },
+  ];
+
   return (
-    <>
-      <Nav />
+    <main className="mx-auto max-w-2xl px-5 py-16 sm:px-6 sm:py-24">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/portrait.webp"
+            alt={site.name}
+            width={64}
+            height={64}
+            className="h-16 w-16 rounded-full border border-line object-cover"
+          />
+          <h1 className="mt-4 text-2xl font-semibold">{site.handle}</h1>
+        </div>
+        <ThemeToggle />
+      </div>
 
-      <main id="top">
-        <Hero />
+      <hr className="my-6 border-line" />
 
-        {/* ─────────────────────────── Work ─────────────────────────── */}
-        <div className="glow-band">
-          <Section
-            id="work"
-            eyebrow="Selected work"
-            title="Shipped, in the store, in use."
-            lede={`${apps.length} apps live on Google Play across ${domains.length} industries. Every one is publicly downloadable — not a prototype, not a concept. Pick any of them to see the screenshots, the stack, and what I actually built.`}
+      <p className="leading-relaxed">{site.intro}</p>
+      <p className="mt-4 text-sm leading-relaxed text-muted">
+        {site.introSecondary}
+      </p>
+
+      <nav className="mt-6 flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs">
+        {socials.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target={s.href.startsWith("http") ? "_blank" : undefined}
+            rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            className="text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
           >
-            <WorkGallery apps={apps} />
-          </Section>
-        </div>
+            {s.label}
+          </a>
+        ))}
+      </nav>
 
-        {/* ───────────────────────── Services ───────────────────────── */}
-        <Section
-          id="services"
-          eyebrow="Services"
-          title="How I can help."
-          lede="Most engagements fall into one of four shapes. If yours doesn't, tell me about it anyway."
-        >
-          <div className="grid gap-5 sm:grid-cols-2">
-            {services.map((s, i) => (
-              <div
-                key={s.title}
-                className="glass group relative overflow-hidden rounded-2xl p-7 transition-transform hover:-translate-y-1"
-              >
-                <div className="grad-ring absolute inset-x-0 top-0 h-[2px] opacity-0 transition-opacity group-hover:opacity-100" />
-                <span className="grad-text font-mono text-sm font-bold">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-lg font-semibold">{s.title}</h3>
-                <p className="mt-2 leading-relaxed text-muted">{s.body}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
+      <Directory groups={groups} />
 
-        {/* ────────────────────────── About ─────────────────────────── */}
-        <Section id="about" eyebrow="About" title={`A bit about me.`}>
-          <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
-            <div className="space-y-5 text-lg leading-relaxed text-muted">
-              {/* ← EDIT: replace with your own story. */}
-              <p>
-                I&apos;m a React Native developer based in {site.location}. I
-                build cross-platform mobile apps and take them all the way to the
-                store — architecture, delivery, submission, and the unglamorous
-                parts in between.
-              </p>
-              <p>
-                My work spans HR platforms serving workforces of ten thousand
-                plus, Open edX learning apps, WhatsApp marketing tools, an
-                ordering app for an eighty-year-old bakery brand, and a mental
-                performance system for competitive athletes. Different
-                industries, same discipline: ship something people actually open
-                twice.
-              </p>
-              <p>
-                If you have an app to build, inherit, or rescue —{" "}
-                <a
-                  href="#contact"
-                  className="grad-text font-semibold underline underline-offset-4"
-                >
-                  let&apos;s talk
-                </a>
-                .
-              </p>
-            </div>
+      <hr className="my-10 border-line" />
 
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-faint">
-                Toolkit
-              </h3>
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {skills.map((s) => (
-                  <li
-                    key={s}
-                    className="glass rounded-full px-3.5 py-1.5 text-sm"
-                  >
-                    {s}
-                  </li>
-                ))}
-              </ul>
-
-              {links.resume && (
-                <a
-                  href={links.resume}
-                  className="grad-text mt-7 inline-flex items-center gap-2 text-sm font-semibold"
-                >
-                  Download résumé ↓
-                </a>
-              )}
-            </div>
-          </div>
-        </Section>
-
-        {/* ─────────────────────── Testimonials ─────────────────────── */}
-        {testimonials.length > 0 && (
-          <Section eyebrow="Testimonials" title="What clients say.">
-            <div className="grid gap-5 sm:grid-cols-2">
-              {testimonials.map((t) => (
-                <figure key={t.name} className="glass rounded-2xl p-7">
-                  <blockquote className="text-lg leading-relaxed">
-                    &ldquo;{t.quote}&rdquo;
-                  </blockquote>
-                  <figcaption className="mt-5 text-sm">
-                    <span className="font-semibold">{t.name}</span>
-                    <span className="text-muted"> — {t.title}</span>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {/* ───────────────────────── Contact ────────────────────────── */}
-        <section id="contact" className="glow-band relative scroll-mt-20">
-          <div className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
-            <div className="glass rounded-3xl p-9 text-center shadow-[var(--shadow-lg)] sm:p-16">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                Contact
-              </p>
-              <h2 className="display mx-auto mt-4 max-w-2xl text-3xl font-bold sm:text-5xl">
-                Got an app that needs{" "}
-                <span className="grad-text">building?</span>
-              </h2>
-              <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-muted">
-                Tell me what you&apos;re working on and roughly when you need it
-                live. I&apos;ll come back with an honest answer on scope,
-                timeline, and whether I&apos;m the right fit.
-              </p>
-
-              <div className="mt-9 flex flex-wrap justify-center gap-3">
-                <a
-                  href={`mailto:${site.email}`}
-                  className="grad-btn rounded-full px-7 py-3.5 font-semibold"
-                >
-                  {site.email}
-                </a>
-                {site.phone && (
-                  <a
-                    href={`tel:${site.phone.replace(/\s/g, "")}`}
-                    className="rounded-full border border-line-strong bg-bg-elev px-7 py-3.5 font-semibold transition-colors hover:border-accent"
-                  >
-                    {site.phone}
-                  </a>
-                )}
-                {links.booking && (
-                  <a
-                    href={links.booking}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full border border-line-strong bg-bg-elev px-7 py-3.5 font-semibold transition-colors hover:border-accent"
-                  >
-                    Book a call
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* ───────────────────────── Footer ──────────────────────────── */}
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-9 text-sm text-muted sm:px-8">
-          <p>
-            © {new Date().getFullYear()} {site.name}. Built with React &amp;
-            Next.js.
-          </p>
-          <ul className="flex flex-wrap gap-5">
-            {links.github && (
-              <li>
-                <a
-                  href={links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-text"
-                >
-                  GitHub
-                </a>
-              </li>
-            )}
-            {links.linkedin && (
-              <li>
-                <a
-                  href={links.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-text"
-                >
-                  LinkedIn
-                </a>
-              </li>
-            )}
-            {links.x && (
-              <li>
-                <a
-                  href={links.x}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-text"
-                >
-                  X
-                </a>
-              </li>
-            )}
-            <li>
-              <a
-                href={`mailto:${site.email}`}
-                className="transition-colors hover:text-text"
-              >
-                Email
-              </a>
-            </li>
-          </ul>
-        </div>
-      </footer>
-    </>
+      <p className="font-mono text-xs text-faint">
+        built with next.js. {site.location.toLowerCase()}.
+      </p>
+    </main>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import FloatingShapes from "@/components/FloatingShapes";
+import ParticleLogo from "@/components/ParticleLogo";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -55,7 +56,9 @@ export default function RootLayout({
           <span className="orb orb-b" />
           <span className="orb orb-c" />
           <span className="stars" />
-          {/* pointer + scroll reactive wireframe field, across every section */}
+          {/* the react atom, which scatters as you scroll */}
+          <ParticleLogo />
+          {/* pointer + scroll reactive wireframe field */}
           <FloatingShapes />
         </div>
         {children}
