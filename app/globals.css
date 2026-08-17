@@ -1,45 +1,52 @@
 @import "tailwindcss";
 
 /* ── Dark is the primary look for this design ───────────────── */
+/*
+ * Monochrome throughout: every token is a neutral grey, so the gradient
+ * helpers below resolve to grey-on-grey without needing their own rules.
+ * --accent is the brightest step rather than a hue, which is what hover
+ * and focus states key off.
+ */
 :root {
-  --bg: #070b16;
-  --bg-elev: #0f1524;
-  --bg-sunk: #050813;
+  --bg: #0a0a0a;
+  --bg-elev: #141416;
+  --bg-sunk: #050506;
   --bg-glass: rgb(255 255 255 / 0.04);
-  --text: #eef1f8;
-  --text-muted: #98a1b8;
-  --text-faint: #626c85;
-  --border: #1c2438;
-  --border-strong: #2b3550;
-  --accent: #8b5cf6;
-  --accent-2: #3b82f6;
-  --accent-3: #ec4899;
-  --accent-text: #ffffff;
-  --success: #22d3a7;
+  --text: #f2f2f2;
+  --text-muted: #a3a3a3;
+  --text-faint: #6e6e6e;
+  --border: #232326;
+  --border-strong: #3a3a3e;
+  --accent: #fafafa;
+  --accent-2: #d4d4d4;
+  --accent-3: #8f8f8f;
+  /* text sitting on top of an --accent fill, which is near-white here */
+  --accent-text: #0a0a0a;
+  --success: #d4d4d4;
   --shadow: 0 2px 8px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.55);
   --shadow-lg: 0 4px 12px rgb(0 0 0 / 0.35), 0 32px 64px -20px rgb(0 0 0 / 0.75);
-  --glow: 0 0 40px -8px rgb(139 92 246 / 0.55);
+  --glow: 0 0 40px -8px rgb(255 255 255 / 0.16);
 }
 
 /* ── Optional light mode ────────────────────────────────────── */
 :root[data-theme="light"] {
-  --bg: #f7f8fc;
+  --bg: #fafafa;
   --bg-elev: #ffffff;
-  --bg-sunk: #eef0f7;
-  --bg-glass: rgb(10 14 26 / 0.03);
-  --text: #0f1524;
-  --text-muted: #5a6480;
-  --text-faint: #8b94ad;
-  --border: #e2e6f0;
-  --border-strong: #cdd3e2;
-  --accent: #6d33e8;
-  --accent-2: #2563eb;
-  --accent-3: #db2777;
-  --accent-text: #ffffff;
-  --success: #0d9b78;
-  --shadow: 0 1px 3px rgb(15 21 36 / 0.06), 0 10px 28px -10px rgb(15 21 36 / 0.14);
-  --shadow-lg: 0 2px 6px rgb(15 21 36 / 0.06), 0 28px 56px -18px rgb(15 21 36 / 0.22);
-  --glow: 0 0 40px -10px rgb(109 51 232 / 0.35);
+  --bg-sunk: #f0f0f0;
+  --bg-glass: rgb(10 10 10 / 0.03);
+  --text: #0a0a0a;
+  --text-muted: #525252;
+  --text-faint: #8a8a8a;
+  --border: #e5e5e5;
+  --border-strong: #cfcfcf;
+  --accent: #0a0a0a;
+  --accent-2: #404040;
+  --accent-3: #737373;
+  --accent-text: #fafafa;
+  --success: #404040;
+  --shadow: 0 1px 3px rgb(10 10 10 / 0.06), 0 10px 28px -10px rgb(10 10 10 / 0.14);
+  --shadow-lg: 0 2px 6px rgb(10 10 10 / 0.06), 0 28px 56px -18px rgb(10 10 10 / 0.22);
+  --glow: 0 0 40px -10px rgb(10 10 10 / 0.22);
 }
 
 @theme inline {
@@ -81,7 +88,8 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  /* --accent is near-white in dark mode, so #fff here would vanish */
+  color: var(--accent-text);
 }
 
 :focus-visible {
@@ -106,7 +114,7 @@ body {
 .grad-btn {
   background: linear-gradient(115deg, var(--accent-2), var(--accent), var(--accent-3));
   background-size: 200% 100%;
-  color: #fff;
+  color: var(--accent-text);
   transition: background-position 0.5s ease, box-shadow 0.3s ease;
   box-shadow: var(--glow);
 }
@@ -162,7 +170,7 @@ body {
   top: -20rem;
   right: -14rem;
   background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
-  opacity: 0.5;
+  opacity: 0.1;
   animation: drift 22s ease-in-out infinite alternate;
 }
 .orb-b {
@@ -171,7 +179,7 @@ body {
   bottom: -24rem;
   left: -16rem;
   background: radial-gradient(circle, var(--accent-2) 0%, transparent 68%);
-  opacity: 0.45;
+  opacity: 0.09;
   animation: drift 27s ease-in-out infinite alternate-reverse;
 }
 .orb-c {
@@ -180,14 +188,14 @@ body {
   top: 32%;
   left: 50%;
   background: radial-gradient(circle, var(--accent-3) 0%, transparent 70%);
-  opacity: 0.16;
+  opacity: 0.06;
   animation: drift 33s ease-in-out infinite alternate;
 }
 :root[data-theme="light"] .page-bg .orb {
-  opacity: 0.2;
+  opacity: 0.07;
 }
 :root[data-theme="light"] .orb-c {
-  opacity: 0.09;
+  opacity: 0.04;
 }
 
 /*
@@ -268,6 +276,9 @@ body {
   inset: 0;
   overflow: hidden;
   pointer-events: none;
+  /* shapes stroke with currentColor, so they flip with the theme instead
+     of staying a fixed grey that vanishes on one of the two backgrounds */
+  color: var(--text-faint);
 }
 
 .shape {

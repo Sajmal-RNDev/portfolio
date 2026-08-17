@@ -29,7 +29,6 @@ type Shape = {
   /** idle drift duration, s */
   dur: number;
   kind: "tri" | "tetra" | "diamond" | "square";
-  color: string;
   opacity: number;
 };
 
@@ -38,28 +37,28 @@ type Shape = {
  * values have to be identical on both sides of hydration.
  */
 const SHAPES: Shape[] = [
-  { x: 6, y: 14, size: 30, d: 0.9, r: 14, dur: 24, kind: "tetra", color: "#8b5cf6", opacity: 0.5 },
-  { x: 14, y: 62, size: 18, d: 0.45, r: 38, dur: 31, kind: "tri", color: "#3b82f6", opacity: 0.4 },
-  { x: 3, y: 84, size: 24, d: 0.75, r: 62, dur: 27, kind: "diamond", color: "#22d3a7", opacity: 0.35 },
-  { x: 21, y: 32, size: 14, d: 0.3, r: 8, dur: 36, kind: "tri", color: "#eef1f8", opacity: 0.22 },
-  { x: 27, y: 88, size: 34, d: 1, r: 25, dur: 22, kind: "tetra", color: "#ec4899", opacity: 0.4 },
-  { x: 35, y: 8, size: 20, d: 0.6, r: 47, dur: 29, kind: "square", color: "#fbbf24", opacity: 0.3 },
-  { x: 44, y: 46, size: 12, d: 0.25, r: 19, dur: 38, kind: "tri", color: "#eef1f8", opacity: 0.18 },
-  { x: 39, y: 72, size: 26, d: 0.8, r: 71, dur: 25, kind: "tetra", color: "#3b82f6", opacity: 0.38 },
-  { x: 52, y: 18, size: 16, d: 0.4, r: 33, dur: 33, kind: "diamond", color: "#8b5cf6", opacity: 0.32 },
-  { x: 58, y: 92, size: 22, d: 0.7, r: 5, dur: 28, kind: "tri", color: "#22d3a7", opacity: 0.34 },
-  { x: 49, y: 66, size: 38, d: 1, r: 52, dur: 21, kind: "tetra", color: "#8b5cf6", opacity: 0.34 },
-  { x: 66, y: 36, size: 13, d: 0.28, r: 27, dur: 37, kind: "tri", color: "#eef1f8", opacity: 0.2 },
-  { x: 72, y: 10, size: 28, d: 0.85, r: 66, dur: 24, kind: "tetra", color: "#fbbf24", opacity: 0.36 },
-  { x: 78, y: 74, size: 18, d: 0.5, r: 11, dur: 32, kind: "square", color: "#3b82f6", opacity: 0.3 },
-  { x: 88, y: 24, size: 32, d: 0.95, r: 41, dur: 23, kind: "tetra", color: "#ec4899", opacity: 0.38 },
-  { x: 94, y: 58, size: 20, d: 0.6, r: 74, dur: 30, kind: "diamond", color: "#8b5cf6", opacity: 0.33 },
-  { x: 84, y: 94, size: 15, d: 0.35, r: 22, dur: 35, kind: "tri", color: "#eef1f8", opacity: 0.2 },
-  { x: 97, y: 86, size: 26, d: 0.8, r: 58, dur: 26, kind: "tetra", color: "#22d3a7", opacity: 0.32 },
-  { x: 63, y: 54, size: 11, d: 0.22, r: 45, dur: 40, kind: "tri", color: "#eef1f8", opacity: 0.16 },
-  { x: 31, y: 24, size: 17, d: 0.45, r: 69, dur: 34, kind: "diamond", color: "#3b82f6", opacity: 0.28 },
-  { x: 9, y: 42, size: 22, d: 0.7, r: 30, dur: 27, kind: "tri", color: "#8b5cf6", opacity: 0.3 },
-  { x: 76, y: 46, size: 24, d: 0.75, r: 15, dur: 29, kind: "square", color: "#ec4899", opacity: 0.26 },
+  { x: 6, y: 14, size: 30, d: 0.9, r: 14, dur: 24, kind: "tetra", opacity: 0.5 },
+  { x: 14, y: 62, size: 18, d: 0.45, r: 38, dur: 31, kind: "tri", opacity: 0.4 },
+  { x: 3, y: 84, size: 24, d: 0.75, r: 62, dur: 27, kind: "diamond", opacity: 0.35 },
+  { x: 21, y: 32, size: 14, d: 0.3, r: 8, dur: 36, kind: "tri", opacity: 0.22 },
+  { x: 27, y: 88, size: 34, d: 1, r: 25, dur: 22, kind: "tetra", opacity: 0.4 },
+  { x: 35, y: 8, size: 20, d: 0.6, r: 47, dur: 29, kind: "square", opacity: 0.3 },
+  { x: 44, y: 46, size: 12, d: 0.25, r: 19, dur: 38, kind: "tri", opacity: 0.18 },
+  { x: 39, y: 72, size: 26, d: 0.8, r: 71, dur: 25, kind: "tetra", opacity: 0.38 },
+  { x: 52, y: 18, size: 16, d: 0.4, r: 33, dur: 33, kind: "diamond", opacity: 0.32 },
+  { x: 58, y: 92, size: 22, d: 0.7, r: 5, dur: 28, kind: "tri", opacity: 0.34 },
+  { x: 49, y: 66, size: 38, d: 1, r: 52, dur: 21, kind: "tetra", opacity: 0.34 },
+  { x: 66, y: 36, size: 13, d: 0.28, r: 27, dur: 37, kind: "tri", opacity: 0.2 },
+  { x: 72, y: 10, size: 28, d: 0.85, r: 66, dur: 24, kind: "tetra", opacity: 0.36 },
+  { x: 78, y: 74, size: 18, d: 0.5, r: 11, dur: 32, kind: "square", opacity: 0.3 },
+  { x: 88, y: 24, size: 32, d: 0.95, r: 41, dur: 23, kind: "tetra", opacity: 0.38 },
+  { x: 94, y: 58, size: 20, d: 0.6, r: 74, dur: 30, kind: "diamond", opacity: 0.33 },
+  { x: 84, y: 94, size: 15, d: 0.35, r: 22, dur: 35, kind: "tri", opacity: 0.2 },
+  { x: 97, y: 86, size: 26, d: 0.8, r: 58, dur: 26, kind: "tetra", opacity: 0.32 },
+  { x: 63, y: 54, size: 11, d: 0.22, r: 45, dur: 40, kind: "tri", opacity: 0.16 },
+  { x: 31, y: 24, size: 17, d: 0.45, r: 69, dur: 34, kind: "diamond", opacity: 0.28 },
+  { x: 9, y: 42, size: 22, d: 0.7, r: 30, dur: 27, kind: "tri", opacity: 0.3 },
+  { x: 76, y: 46, size: 24, d: 0.75, r: 15, dur: 29, kind: "square", opacity: 0.26 },
 ];
 
 const PATHS: Record<Shape["kind"], string> = {
@@ -140,7 +139,7 @@ export default function FloatingShapes() {
                 height={s.size}
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke={s.color}
+                stroke="currentColor"
                 strokeWidth="1.1"
                 strokeLinejoin="round"
                 opacity={s.opacity}

@@ -23,8 +23,17 @@ function mulberry32(seed: number) {
   };
 }
 
-/* React blue leading, then the site's own gradient, so it reads as ours */
-const COLORS = ["#61dafb", "#38bdf8", "#3b82f6", "#8b5cf6", "#ec4899", "#eef1f8"];
+/*
+ * Neutral steps — the site is monochrome throughout. Two ramps, because a
+ * light grey that reads well on near-black is invisible on near-white.
+ * Both arrays must stay the same length: the index is the draw bucket.
+ */
+const DARK = ["#f5f5f5", "#dcdcdc", "#9a9aa0", "#c6c6cc", "#d8d8de", "#eeeeee"];
+const LIGHT = ["#1f1f1f", "#333333", "#5c5c5c", "#3d3d3d", "#4a4a4a", "#2a2a2a"];
+const COLORS = DARK;
+
+const isLight = () =>
+  document.documentElement.getAttribute("data-theme") === "light";
 
 const PER_RING = 950;
 const NUCLEUS = 430;
@@ -59,6 +68,18 @@ export default function ParticleLogo() {
 
     const rand = mulberry32(73_010);
     const buckets: Particle[][] = COLORS.map(() => []);
+
+    // swapped live when the theme toggles, so the cloud never disappears
+    let ramp = isLight() ? LIGHT : DARK;
+    const themeWatcher = new MutationObserver(() => {
+      ramp = isLight() ? LIGHT : DARK;
+      // under reduced motion there is no loop to pick the change up
+      if (reduced) paint();
+    });
+    themeWatcher.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
     const push = (hx: number, hy: number, colorBias: number) => {
       // scatter target: outward from where it sits, well past the frame
@@ -145,7 +166,7 @@ export default function ParticleLogo() {
       for (let b = 0; b < buckets.length; b++) {
         const list = buckets[b];
         if (!list.length) continue;
-        ctx!.fillStyle = COLORS[b];
+        ctx!.fillStyle = ramp[b];
 
         for (let i = 0; i < list.length; i++) {
           const p = list[i];
@@ -196,7 +217,10 @@ export default function ParticleLogo() {
       // assembled, still, no scatter
       paint();
       window.addEventListener("resize", onResize);
-      return () => window.removeEventListener("resize", onResize);
+      return () => {
+        window.removeEventListener("resize", onResize);
+        themeWatcher.disconnect();
+      };
     }
 
     scatterTarget = progress();
@@ -223,6 +247,7 @@ export default function ParticleLogo() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
+      themeWatcher.disconnect();
     };
   }, []);
 
