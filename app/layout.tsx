@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import FloatingShapes from "@/components/FloatingShapes";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -54,6 +55,8 @@ export default function RootLayout({
           <span className="orb orb-b" />
           <span className="orb orb-c" />
           <span className="stars" />
+          {/* pointer + scroll reactive wireframe field, across every section */}
+          <FloatingShapes />
         </div>
         {children}
       </body>

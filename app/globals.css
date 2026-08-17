@@ -255,6 +255,74 @@ body {
   }
 }
 
+/* ── Wireframe field: reacts to the pointer and to scrolling ─── */
+/*
+ * Three transforms compose, one per nesting level, because a CSS animation
+ * on `transform` overwrites any other transform on the same element:
+ *   .shape        scroll parallax
+ *   .shape-mouse  pointer parallax (--mx/--my, set on <html> in JS)
+ *   .shape-spin   idle drift + rotation
+ */
+.shape-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  will-change: transform;
+}
+
+.shape-mouse,
+.shape-spin {
+  display: block;
+}
+
+/* Near shapes travel further than far ones, which is what sells the depth */
+.shape-mouse {
+  transform: translate3d(
+    calc(var(--mx, 0) * var(--d, 0.5) * 30px),
+    calc(var(--my, 0) * var(--d, 0.5) * 30px),
+    0
+  );
+}
+
+@keyframes shape-drift {
+  from {
+    transform: rotate(calc(var(--r, 0) * 1deg)) translateY(-10px);
+  }
+  to {
+    transform: rotate(calc(var(--r, 0) * 1deg + 45deg)) translateY(10px);
+  }
+}
+
+@keyframes shape-parallax {
+  from {
+    transform: translate3d(0, calc(var(--d, 0.5) * 110px), 0);
+  }
+  to {
+    transform: translate3d(0, calc(var(--d, 0.5) * -110px), 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .shape-spin {
+    animation: shape-drift var(--dur, 26s) ease-in-out infinite alternate;
+  }
+}
+
+/* Driven by the document's own scroll, so it spans the whole page */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .shape {
+      animation: shape-parallax linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
 /* Faint starfield dots */
 .stars {
   position: absolute;
@@ -574,6 +642,8 @@ html.sheet-open body {
   .wave,
   .caret,
   .orb,
+  .shape,
+  .shape-spin,
   .reveal,
   .sheet-panel,
   .sheet[open]::backdrop,
