@@ -323,6 +323,18 @@ body {
   }
 }
 
+/*
+ * React-atom point cloud behind the hero. Sits under the hero's content,
+ * which follows it in the DOM, so no z-index is needed to keep it back.
+ */
+.particle-logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
 /* Faint starfield dots */
 .stars {
   position: absolute;

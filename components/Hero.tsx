@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ParticleLogo from "./ParticleLogo";
 import { site } from "@/content/site";
 
 const ROLES = [
@@ -83,7 +84,9 @@ export default function Hero() {
   const { links } = site;
 
   return (
-    <section className="relative">
+    <section className="relative overflow-hidden">
+      <ParticleLogo />
+
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:gap-10 lg:pb-32 lg:pt-20">
         {/* ── left column ── */}
         <div>
