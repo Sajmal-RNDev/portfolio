@@ -67,6 +67,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* keeps the page from shifting when a sheet locks scrolling */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -284,6 +286,207 @@ body {
   animation: caret 1s steps(1) infinite;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ── Work grid: cards reveal as they scroll into view ────────── */
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * Scroll-driven, so it needs no JS and re-plays on the way back up.
+ * The @supports guard is what keeps it safe: browsers without
+ * animation-timeline simply render the cards, no hidden content.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}
+
+/* ── Detail sheet ───────────────────────────────────────────── */
+.sheet {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+/* Bottom sheet on phones, centred panel from sm up. */
+.sheet[open] {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  /* minmax(0,1fr), not auto: an auto track would size to the panel's
+     min-content, which the screenshot rail inflates past the viewport */
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  justify-items: center;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  overflow: hidden;
+}
+@media (min-width: 640px) {
+  .sheet[open] {
+    align-items: center;
+    padding: 1.5rem;
+  }
+}
+
+.sheet[open]::backdrop {
+  background: rgb(2 4 10 / 0.72);
+  backdrop-filter: blur(10px);
+  animation: fade-in 0.35s ease both;
+}
+:root[data-theme="light"] .sheet[open]::backdrop {
+  background: rgb(18 24 40 / 0.4);
+}
+.sheet.closing::backdrop {
+  animation: fade-out 0.26s ease forwards;
+}
+
+/* Both take focus programmatically, so the global ring is just noise here —
+   the controls inside keep theirs. */
+.sheet:focus,
+.sheet:focus-visible,
+.sheet-panel:focus,
+.sheet-panel:focus-visible {
+  outline: none;
+}
+
+.sheet-panel {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: min(62rem, 100%);
+  max-height: 92dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: var(--shadow-lg);
+  animation: sheet-up 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+.sheet.closing .sheet-panel {
+  animation: sheet-down 0.26s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+@media (min-width: 640px) {
+  .sheet-panel {
+    border-radius: 1.5rem;
+    animation-name: panel-in;
+  }
+  .sheet.closing .sheet-panel {
+    animation-name: panel-out;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    opacity: 0.5;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sheet-down {
+  to {
+    opacity: 0.5;
+    transform: translateY(100%);
+  }
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.965);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes panel-out {
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+/* Body blocks cascade in behind the panel, and again on ← → */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pop > * {
+  animation: pop-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.pop > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.pop > *:nth-child(2) {
+  animation-delay: 0.17s;
+}
+.pop > *:nth-child(3) {
+  animation-delay: 0.24s;
+}
+.pop > *:nth-child(n + 4) {
+  animation-delay: 0.31s;
+}
+
+@keyframes shot-in {
+  from {
+    opacity: 0;
+    transform: translateX(34px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.shot-in {
+  animation: shot-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The page must not scroll behind an open sheet. */
+html.sheet-open,
+html.sheet-open body {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -296,7 +499,12 @@ body {
   .wave,
   .caret,
   .aurora::before,
-  .aurora::after {
+  .aurora::after,
+  .reveal,
+  .sheet-panel,
+  .sheet[open]::backdrop,
+  .pop > *,
+  .shot-in {
     animation: none !important;
   }
   *,

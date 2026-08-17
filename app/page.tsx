@@ -1,6 +1,6 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import ProjectCard from "@/components/ProjectCard";
+import WorkGallery from "@/components/WorkGallery";
 import { apps, domains } from "@/content/apps";
 import { site, services, skills, testimonials } from "@/content/site";
 
@@ -53,13 +53,9 @@ export default function Home() {
               id="work"
               eyebrow="Selected work"
               title="Shipped, in the store, in use."
-              lede={`${apps.length} apps live on Google Play across ${domains.length} industries. Every one is publicly downloadable — not a prototype, not a concept. Tap through to any listing to see it running.`}
+              lede={`${apps.length} apps live on Google Play across ${domains.length} industries. Every one is publicly downloadable — not a prototype, not a concept. Pick any of them to see the screenshots, the stack, and what I actually built.`}
             >
-              <div className="space-y-10">
-                {apps.map((app, i) => (
-                  <ProjectCard key={app.slug} app={app} index={i} />
-                ))}
-              </div>
+              <WorkGallery apps={apps} />
             </Section>
           </div>
         </div>

@@ -4,6 +4,8 @@ type Props = {
   /** Sizes by height so a row stays uniform despite differing aspect ratios. */
   className?: string;
   priority?: boolean;
+  /** Used to stagger the reveal when a rail animates in. */
+  style?: React.CSSProperties;
 };
 
 /**
@@ -18,9 +20,11 @@ export default function Screenshot({
   alt,
   className = "h-[360px] sm:h-[440px]",
   priority = false,
+  style,
 }: Props) {
   return (
     <div
+      style={style}
       className={`relative shrink-0 overflow-hidden rounded-2xl border border-line bg-bg-elev shadow-[var(--shadow)] ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
