@@ -47,7 +47,16 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {/* one continuous wash behind every section, so nothing seams */}
+        <div className="page-bg" aria-hidden="true">
+          <span className="orb orb-a" />
+          <span className="orb orb-b" />
+          <span className="orb orb-c" />
+          <span className="stars" />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }

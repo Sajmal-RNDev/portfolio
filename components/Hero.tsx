@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Avatar from "./Avatar";
 import { site } from "@/content/site";
 
 const ROLES = [
@@ -84,10 +83,7 @@ export default function Hero() {
   const { links } = site;
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="aurora" />
-      <div className="stars" />
-
+    <section className="relative">
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:gap-10 lg:pb-32 lg:pt-20">
         {/* ── left column ── */}
         <div>
@@ -221,8 +217,20 @@ export default function Hero() {
           <div className="relative aspect-square">
             {/* rotating gradient ring */}
             <div className="grad-ring spin-slow absolute inset-[5%] rounded-full opacity-95" />
-            <div className="absolute inset-[5%] rounded-full bg-bg" style={{ margin: 11 }} />
-            <Avatar className="floaty absolute inset-[8%] h-[84%] w-[84%]" />
+            <div
+              className="absolute inset-[5%] overflow-hidden rounded-full bg-bg"
+              style={{ margin: 11 }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/portrait.webp"
+                alt={`${site.name}, ${site.role}`}
+                width={560}
+                height={560}
+                fetchPriority="high"
+                className="h-full w-full object-cover"
+              />
+            </div>
 
             {/* floating code snippet */}
             <div className="floaty-slow glass absolute -right-2 top-2 w-56 rounded-xl p-3 shadow-[var(--shadow-lg)] sm:-right-6">

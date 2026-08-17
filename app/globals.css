@@ -137,38 +137,113 @@ body {
   backdrop-filter: blur(12px);
 }
 
-/* ── Ambient background glows ───────────────────────────────── */
-.aurora {
-  position: absolute;
+/* ── One ambient wash behind the whole page ─────────────────── */
+/*
+ * Page-wide and fixed, deliberately. Section-scoped glows each sat in
+ * their own overflow:hidden box, so the colour stopped dead at the
+ * section edge and drew a visible seam between panels.
+ */
+.page-bg {
+  position: fixed;
   inset: 0;
+  z-index: -1;
   overflow: hidden;
   pointer-events: none;
 }
-.aurora::before,
-.aurora::after {
-  content: "";
+
+.page-bg .orb {
   position: absolute;
-  width: 46rem;
-  height: 46rem;
   border-radius: 50%;
-  filter: blur(110px);
-  opacity: 0.5;
+  filter: blur(120px);
 }
-.aurora::before {
+.orb-a {
+  width: 48rem;
+  height: 48rem;
+  top: -20rem;
+  right: -14rem;
   background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
-  top: -18rem;
-  right: -12rem;
+  opacity: 0.5;
   animation: drift 22s ease-in-out infinite alternate;
 }
-.aurora::after {
+.orb-b {
+  width: 46rem;
+  height: 46rem;
+  bottom: -24rem;
+  left: -16rem;
   background: radial-gradient(circle, var(--accent-2) 0%, transparent 68%);
-  bottom: -22rem;
-  left: -14rem;
-  animation: drift 26s ease-in-out infinite alternate-reverse;
+  opacity: 0.45;
+  animation: drift 27s ease-in-out infinite alternate-reverse;
 }
-:root[data-theme="light"] .aurora::before,
-:root[data-theme="light"] .aurora::after {
-  opacity: 0.22;
+.orb-c {
+  width: 32rem;
+  height: 32rem;
+  top: 32%;
+  left: 50%;
+  background: radial-gradient(circle, var(--accent-3) 0%, transparent 70%);
+  opacity: 0.16;
+  animation: drift 33s ease-in-out infinite alternate;
+}
+:root[data-theme="light"] .page-bg .orb {
+  opacity: 0.2;
+}
+:root[data-theme="light"] .orb-c {
+  opacity: 0.09;
+}
+
+/*
+ * Sectional colour that cannot seam. A radial gradient alone is not
+ * enough — its stops still carry a few percent of colour where they meet
+ * the section edge, and that step is exactly what reads as a break. The
+ * mask forces both ends to zero, so there is nothing left to see.
+ */
+.glow-band {
+  position: relative;
+}
+.glow-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* behind the section's own content, above the page-wide wash */
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 46% at 78% 26%,
+      color-mix(in srgb, var(--accent) 15%, transparent) 0%,
+      transparent 68%
+    ),
+    radial-gradient(
+      54% 42% at 16% 76%,
+      color-mix(in srgb, var(--accent-2) 12%, transparent) 0%,
+      transparent 66%
+    );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 16%,
+    #000 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 16%,
+    #000 84%,
+    transparent 100%
+  );
+}
+:root[data-theme="light"] .glow-band::before {
+  background:
+    radial-gradient(
+      60% 46% at 78% 26%,
+      color-mix(in srgb, var(--accent) 8%, transparent) 0%,
+      transparent 68%
+    ),
+    radial-gradient(
+      54% 42% at 16% 76%,
+      color-mix(in srgb, var(--accent-2) 6%, transparent) 0%,
+      transparent 66%
+    );
 }
 
 @keyframes drift {
@@ -498,8 +573,7 @@ html.sheet-open body {
   .blink,
   .wave,
   .caret,
-  .aurora::before,
-  .aurora::after,
+  .orb,
   .reveal,
   .sheet-panel,
   .sheet[open]::backdrop,

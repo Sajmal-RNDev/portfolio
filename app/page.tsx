@@ -46,18 +46,15 @@ export default function Home() {
         <Hero />
 
         {/* ─────────────────────────── Work ─────────────────────────── */}
-        <div className="relative">
-          <div className="aurora opacity-60" />
-          <div className="relative">
-            <Section
-              id="work"
-              eyebrow="Selected work"
-              title="Shipped, in the store, in use."
-              lede={`${apps.length} apps live on Google Play across ${domains.length} industries. Every one is publicly downloadable — not a prototype, not a concept. Pick any of them to see the screenshots, the stack, and what I actually built.`}
-            >
-              <WorkGallery apps={apps} />
-            </Section>
-          </div>
+        <div className="glow-band">
+          <Section
+            id="work"
+            eyebrow="Selected work"
+            title="Shipped, in the store, in use."
+            lede={`${apps.length} apps live on Google Play across ${domains.length} industries. Every one is publicly downloadable — not a prototype, not a concept. Pick any of them to see the screenshots, the stack, and what I actually built.`}
+          >
+            <WorkGallery apps={apps} />
+          </Section>
         </div>
 
         {/* ───────────────────────── Services ───────────────────────── */}
@@ -162,8 +159,7 @@ export default function Home() {
         )}
 
         {/* ───────────────────────── Contact ────────────────────────── */}
-        <section id="contact" className="relative scroll-mt-20 overflow-hidden">
-          <div className="aurora" />
+        <section id="contact" className="glow-band relative scroll-mt-20">
           <div className="relative mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
             <div className="glass rounded-3xl p-9 text-center shadow-[var(--shadow-lg)] sm:p-16">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
