@@ -1,0 +1,52 @@
+/* A closed metal perimeter between the front and rear face planes. */
+.phone-edges {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.phone-edge {
+  position: absolute;
+  display: block;
+  left: var(--edge-x);
+  top: var(--edge-y);
+  width: var(--edge-length);
+  height: var(--phone-depth);
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotateZ(var(--edge-angle)) rotateX(90deg);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background:
+    linear-gradient(rgb(220 165 180 / var(--edge-light, .2)), rgb(220 165 180 / var(--edge-light, .2))),
+    linear-gradient(to bottom, #341923, #542a39 10%, #734454 23%, #613444 64%, #3c1d2b 91%, #885162);
+}
+
+.phone-edge-top {
+  --edge-x: 50%;
+  --edge-y: 0px;
+  --edge-length: calc(100% - var(--phone-radius) * 2 + .3px);
+  --edge-angle: 0deg;
+  --edge-light: .32;
+}
+.phone-edge-right {
+  --edge-x: 100%;
+  --edge-y: 50%;
+  --edge-length: calc(var(--phone-w) * 2.0862308762 - var(--phone-radius) * 2 + .3px);
+  --edge-angle: 90deg;
+  --edge-light: .12;
+}
+.phone-edge-bottom {
+  --edge-x: 50%;
+  --edge-y: 100%;
+  --edge-length: calc(100% - var(--phone-radius) * 2 + .3px);
+  --edge-angle: 180deg;
+  --edge-light: .1;
+}
+.phone-edge-left {
+  --edge-x: 0px;
+  --edge-y: 50%;
+  --edge-length: calc(var(--phone-w) * 2.0862308762 - var(--phone-radius) * 2 + .3px);
+  --edge-angle: 270deg;
+  --edge-light: .24;
+}

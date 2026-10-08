@@ -1,0 +1,106 @@
+.dock-area {
+  position: relative;
+  z-index: 6;
+  flex: 0 0 auto;
+  padding: 10px 14px 6px;
+  background: var(--bg);
+  animation: dock-arrive .65s var(--ease) both;
+}
+
+.dock-area[data-hidden="true"] { display: none; }
+
+.dock-area::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  inset: -15px 0 auto;
+  height: 16px;
+  background: linear-gradient(to top, var(--bg), transparent);
+}
+
+.app-dock {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 6px;
+  border: 1px solid color-mix(in srgb, var(--surface) 65%, var(--line));
+  border-radius: 32px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  box-shadow:
+    0 8px 24px -15px color-mix(in srgb, var(--text) 27%, transparent),
+    0 2px 8px color-mix(in srgb, var(--text) 3%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--surface) 90%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+  backdrop-filter: blur(24px) saturate(1.35);
+}
+
+.app-dock-selection {
+  position: absolute;
+  z-index: -1;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc((100% - 12px) / 4);
+  border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
+  border-radius: 25px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-soft) 82%, var(--surface)), var(--accent-soft));
+  box-shadow:
+    0 2px 6px color-mix(in srgb, var(--accent) 7%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--surface) 65%, transparent);
+  transform: translateX(calc(var(--active-index) * 100%));
+  transition: transform .56s cubic-bezier(.2, .85, .2, 1);
+  pointer-events: none;
+}
+
+.app-dock-link {
+  display: flex;
+  min-width: 0;
+  min-height: 56px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 25px;
+  color: var(--muted);
+  transition: color .25s ease, transform .3s var(--ease);
+}
+
+.app-dock-icon {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 24px;
+  transform: translateY(1px);
+  transition: transform .48s var(--ease);
+}
+
+.app-dock-icon > svg { transition: stroke-width .25s ease; }
+.app-dock-label { font-size: 9px; font-weight: 550; line-height: 1.2; letter-spacing: .01em; }
+.app-dock-link[aria-current="page"] { color: var(--accent); }
+.app-dock-link[aria-current="page"] .app-dock-icon { transform: translateY(-1px); }
+.app-dock-link[aria-current="page"] .app-dock-icon > svg { stroke-width: 1.9; }
+.app-dock-link[aria-current="page"] .app-dock-label { font-weight: 650; }
+.app-dock-link:active { transform: scale(.92); }
+.app-dock-link:active .app-dock-icon { transform: translateY(1px) scale(.92); }
+.app-dock-link:focus-visible { outline-offset: -2px; }
+
+@media (hover: hover) {
+  .app-dock-link:hover { color: var(--accent); }
+  .app-dock-link:hover .app-dock-icon { transform: translateY(-2px); }
+}
+
+@media (max-width: 640px), (max-height: 560px) and (pointer: coarse) {
+  .dock-area { padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); }
+  .app-dock-label { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-area { animation: none; }
+  .app-dock-selection, .app-dock-link, .app-dock-icon, .app-dock-icon > svg { transition: none; }
+}
+
+@keyframes dock-arrive {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}

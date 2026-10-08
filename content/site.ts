@@ -8,20 +8,20 @@
 export const site = {
   name: "Sajmal", // ← EDIT: your full name
   handle: "@sajmal", // ← EDIT: shown as the page's title line
-  role: "React Native Developer",
+  role: "Senior Mobile Developer",
 
-  /** Two short lines under the name. Lower case, plain, no pitch. */
+  /** Short introduction for the portfolio and future profile views. */
   intro:
-    "react native developer. i build cross-platform mobile apps and take them all the way to the store — architecture, delivery, submission, and the unglamorous parts in between.",
+    "I'm a senior mobile developer building thoughtful React Native experiences, from the first architecture decision to the final store release.",
   introSecondary:
-    "nine apps live on google play across HR, edtech, messaging and commerce — two of them serving workforces of 10,000+. available for contract and freelance work.",
+    "My work spans nine published apps across HR, learning, business messaging, sport and commerce. Available for contract and freelance projects.",
 
   /** The one line that does the most work on the whole site. */
-  headline: "I build and ship React Native apps that reach real users.",
+  headline: "Thoughtfully built.\nReady for the real world.",
 
   /** Supporting line — who you help and what they get. */
   subhead:
-    "Nine apps live on Google Play across HR, edtech, messaging and commerce — including two serving workforces of 10,000+. Available for contract and freelance work.",
+    "Senior mobile developer specialising in React Native. I turn complex product ideas into considered mobile experiences, from architecture to store release.",
 
   /** Set to false when you're booked — it's the highest-signal element on the page. */
   available: true,
@@ -48,12 +48,12 @@ export const site = {
 };
 
 /**
- * The "work (gets paid)" rows. Only things that are actually true —
+ * Work history. Only things that are actually true —
  * add roles here as they happen.
  */
 export const work = [
   {
-    title: "react native developer",
+    title: "senior mobile developer",
     meta: "freelance / contract",
     body: "building and shipping cross-platform apps for clients across HR, edtech, messaging and commerce — from empty repo through to store release.",
     href: "",

@@ -1,0 +1,154 @@
+/* A short device-to-portfolio transition, built as real DOM/CSS rather than video. */
+.launch-scene { --phone-w: min(332px, calc(100vw - 90px), calc((100dvh - 146px) * .4793333333)); position: fixed; inset: 0; z-index: 100; isolation: isolate; display: grid; place-items: center; overflow: hidden; color: #f0efe9; perspective: 1400px; background: #171a18; transition: background 1.1s cubic-bezier(.22,.68,.13,1); }
+.launch-scene[data-phase="checking"] .launch-device-wrap { visibility: hidden; }
+.launch-scene::before { position: absolute; inset: 0; content: ""; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 50% 43%, #3b4a394f, transparent 60%); }
+.launch-atmosphere { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+.launch-atmosphere > span { position: absolute; top: 50%; left: 50%; width: min(80vw, 950px); aspect-ratio: 1; border-radius: 50%; border: 1px solid #a9bea810; transform: translate(-50%, -50%); }
+.launch-atmosphere > span:nth-child(2) { width: min(63vw, 745px); border-color: #a9bea816; }
+.launch-atmosphere > span:nth-child(3) { width: 1px; height: 100%; border: 0; background: #a9bea80b; border-radius: 0; }
+.launch-brand { position: absolute; top: 34px; left: 40px; display: grid; gap: 10px; }
+.launch-brand > span:first-child { font-size: 27px; font-weight: 600; letter-spacing: -.07em; }
+.launch-brand > span:last-child { font-family: var(--font-mono); font-size: 7px; letter-spacing: .13em; color: #9ca896; }
+.launch-controls { position: absolute; z-index: 10; top: 37px; right: 40px; display: flex; align-items: center; gap: 8px; }
+.launch-sound { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; border: 1px solid #6d79643d; border-radius: 50%; background: #ffffff04; color: #cdd5c5; transition: background .2s, transform .2s; }
+.launch-sound:hover { background: #ffffff0c; }
+.launch-sound:active { transform: scale(.94); }
+.launch-sound:disabled { opacity: .45; }
+.launch-skip { display: flex; align-items: center; gap: 22px; min-height: 44px; padding: 11px 15px; border: 1px solid #6d79643d; border-radius: 30px; font-size: 11px; color: #cdd5c5; background: #ffffff04; transition: background .2s, color .2s; }
+.launch-skip:hover { background: #ffffff0c; color: #fff; }
+.launch-sound:focus-visible, .launch-skip:focus-visible, .launch-app:focus-visible { outline: 2px solid #c6dbaa; outline-offset: 6px; }
+.launch-background-type { position: absolute; left: max(5vw, calc(50% - 565px)); top: 50%; transform: translateY(-54%); display: flex; flex-direction: column; font-size: clamp(90px, 10.5vw, 170px); font-weight: 450; line-height: .92; letter-spacing: -.09em; color: #a8b69f13; pointer-events: none; z-index: -1; }
+.launch-background-type > span:last-child { margin-left: 40px; font-family: Georgia, serif; font-style: italic; color: #bdd0a61d; }
+/* Body: 71.9 × 150 × 8.75 mm, with complete front/back faces and a rim. */
+.launch-device-wrap { --phone-depth: calc(var(--phone-w) * .1216968011); --phone-half-depth: calc(var(--phone-depth) * .5); --phone-radius: calc(var(--phone-w) * .19); position: relative; width: var(--phone-w); height: calc(var(--phone-w) * 2.0862308762); transform-style: preserve-3d; }
+.launch-device { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateY(0deg); will-change: transform; }
+.launch-front { position: absolute; inset: 0; transform: translateZ(var(--phone-half-depth)); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.launch-front-art { position: absolute; inset: 0; overflow: hidden; border-radius: var(--phone-radius); background: #3c202a; }
+.launch-front-art > img { position: absolute; max-width: none; width: 558.139535%; height: 141.395349%; left: -341.085271%; top: -20.930233%; }
+.launch-glass { position: absolute; inset: calc(var(--phone-w) * .03876); overflow: hidden; border-radius: calc(var(--phone-w) * .1589); background: #142921; isolation: isolate; }
+.launch-wallpaper { position: absolute; inset: 0; z-index: -1; overflow: hidden; background: radial-gradient(ellipse at 82% 10%, #5c8070, transparent 57%), linear-gradient(130deg, #204737, #122d26 58%, #a2bd8c); }
+.launch-fold { position: absolute; display: block; border-radius: 50%; width: 150%; height: 65%; transform: rotate(-38deg); border: 1px solid #d6eac428; }
+.fold-one { top: 32%; left: -79%; background: linear-gradient(105deg, #081e18, #3a6a50 67%, #c0d7a6); box-shadow: 20px 0 60px #0a1e1455; }
+.fold-two { top: 41%; left: 18%; background: linear-gradient(140deg, #153628 5%, #456344 48%, #c1dba6 84%); box-shadow: -10px -6px 25px #0a241c55; }
+.fold-three { width: 100%; height: 55%; top: 65%; left: 30%; background: linear-gradient(145deg, #cfddb7, #456844 40%, #173b2d 75%); }
+.launch-status { position: relative; z-index: 6; height: 8%; padding: 4.5% 7% 0; display: flex; justify-content: space-between; align-items: flex-start; font-size: calc(var(--phone-w) * .032); font-weight: 600; color: #f5f7ee; }
+.launch-island { position: absolute; z-index: 8; left: 37.815126%; top: calc(var(--phone-w) * .02907); width: 23.94958%; height: calc(var(--phone-w) * .0891473); border-radius: 100px; overflow: hidden; background: #070608; pointer-events: none; }
+.launch-island > img { position: absolute; max-width: none; width: 2526.315789%; height: 3304.347826%; left: -1718.421053%; top: -565.217391%; }
+.launch-signal { font-size: calc(var(--phone-w) * .023); letter-spacing: -.1em; }
+.launch-signal > span { font-size: calc(var(--phone-w) * .034); margin-left: 4px; }
+.launch-app-position { position: relative; min-width: 0; text-align: center; }
+.launch-app { display: flex; flex-direction: column; align-items: center; margin: 0 auto; padding: 0; background: none; color: #fff; }
+.launch-app-icon { position: relative; display: block; width: var(--launch-icon); height: var(--launch-icon); border-radius: 25%; box-shadow: 0 6px 20px #0a1e2066, 0 0 0 1px #fff5; background: #d0d8c5; overflow: hidden; transition: transform .3s var(--ease); }
+.launch-app-icon > img { width: 100%; height: 100%; object-fit: cover; }
+.launch-icon-glint { position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 1px 1px #fff8; background: linear-gradient(140deg, #fff2, transparent 50%); }
+.launch-app-label { display: block; margin-top: 9px; font-size: calc(var(--phone-w) * .025); font-weight: 500; letter-spacing: -.02em; text-shadow: 0 1px 3px #122617; }
+.launch-app:hover .launch-app-icon { transform: scale(1.06); }
+.launch-touch { position: absolute; top: calc(var(--launch-icon) * .5); left: 50%; width: 28px; height: 28px; border: 1px solid #ffffffc2; border-radius: 50%; box-shadow: 0 5px 12px #10201233; background: #ffffff44; backdrop-filter: blur(5px); opacity: 0; pointer-events: none; }
+.launch-touch > span { position: absolute; inset: 8px; background: #fff; border-radius: 50%; }
+.launch-ripple { position: absolute; top: calc(var(--launch-icon) * .5); left: 50%; width: 28px; height: 28px; border: 1px solid #f6ffe9; border-radius: 50%; opacity: 0; pointer-events: none; }
+.launch-home-indicator { position: absolute; z-index: 9; left: 35%; bottom: 1.8%; width: 30%; height: 3px; border-radius: 4px; background: #f3f5e6dd; }
+.launch-device-shadow { position: absolute; z-index: -1; width: 82%; height: 18px; border-radius: 50%; bottom: -26px; left: 9%; background: #040a0573; filter: blur(18px); animation: launch-shadow .5s var(--ease) both; }
+.launch-caption { position: absolute; bottom: 30px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 13px; color: #b5c1aa; font-size: 10px; letter-spacing: .01em; }
+.launch-caption-line { width: 1px; height: 22px; background: linear-gradient(transparent, #bbcaab75); }
+.launch-scene[data-phase="ready"] .launch-device { transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateY(180deg); }
+.launch-scene[data-phase="ready"] .launch-caption-line { display: none; }
+.launch-start-device { position: absolute; z-index: 8; top: 50%; left: 50%; width: var(--phone-w); height: calc(var(--phone-w) * 2.0862308762); transform: translate(-50%, -50%); border-radius: calc(var(--phone-w) * .19); background: transparent; }
+.launch-start { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 44px; padding: 12px 20px; border: 1px solid #c1d8aa55; border-radius: 30px; background: #c1d8aa; color: #20311e; font-size: 12px; font-weight: 550; transition: transform .2s, background .2s; }
+.launch-start:hover { background: #d3e7c0; }
+.launch-start:active { transform: scale(.96); }
+.launch-start:focus-visible, .launch-start-device:focus-visible { outline: 2px solid #c6dbaa; outline-offset: 6px; }
+.launch-start:disabled, .launch-start-device:disabled { cursor: progress; }
+.launch-steps { display: flex; gap: 5px; }
+.launch-steps > i { width: 16px; height: 2px; border-radius: 2px; background: #8296752b; transition: background .4s, width .4s var(--ease); }
+.launch-steps > i.is-active { background: #b2c99f; width: 26px; }
+.launch-app-expansion { position: absolute; z-index: 10; inset: 0; background: var(--bg); border-radius: inherit; transform-origin: 0 0; opacity: 0; pointer-events: none; will-change: transform; }
+.launch-shared-portrait { position: fixed; z-index: 20; top: 0; left: 0; transform-origin: 0 0; opacity: 0; pointer-events: none; will-change: transform, opacity; }
+.launch-shared-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+/* A brief rear reveal, followed by a single continuous turn to the display. */
+.launch-scene[data-phase="back"] .launch-device { animation: launch-rear-arrive .3s var(--ease) both; }
+.launch-scene[data-phase="flipping"] .launch-device { animation: launch-phone-flip 1.05s cubic-bezier(.42, 0, .18, 1) both; }
+@keyframes launch-rear-arrive {
+  from { transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateY(180deg) scale(.96); }
+  to { transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateY(180deg) scale(1); }
+}
+@keyframes launch-phone-flip {
+  from { transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateY(180deg); }
+  to { transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateY(0deg); }
+}
+
+/* The lock screen is a visual introduction; it never requests biometric access. */
+.launch-lock-screen { position: absolute; inset: 0; z-index: 5; color: #f2f6ec; touch-action: none; transition: transform .42s cubic-bezier(.32,.72,.2,1), opacity .34s ease; }
+.launch-lock-screen[data-unlocked="true"] { transform: translateY(-105%); opacity: 0; pointer-events: none; }
+.launch-lock-content { position: absolute; inset: 12% 0 auto; display: flex; align-items: center; flex-direction: column; transition: transform .32s var(--ease); }
+.launch-padlock { width: calc(var(--phone-w) * .065); height: calc(var(--phone-w) * .078); margin-bottom: calc(var(--phone-w) * .055); overflow: visible; }
+.launch-lock-shackle { transform-origin: 17px 12px; transition: transform .24s var(--ease); }
+.launch-padlock[data-verified="true"] .launch-lock-shackle { transform: translateY(-2px) rotate(24deg); }
+.launch-lock-date { font-size: calc(var(--phone-w) * .04); font-weight: 500; letter-spacing: -.02em; }
+.launch-lock-time { margin-top: 3px; font-size: calc(var(--phone-w) * .255); font-weight: 550; line-height: 1.1; letter-spacing: -.07em; }
+.launch-lock-message { display: grid; gap: 6px; text-align: center; margin-top: calc(var(--phone-w) * .14); }
+.launch-lock-message > span:first-child { font-family: var(--font-mono); font-size: calc(var(--phone-w) * .02); letter-spacing: .14em; color: #d1dfc9; }
+.launch-lock-message > span:last-child { font-family: Georgia, serif; font-style: italic; font-size: calc(var(--phone-w) * .066); color: #eaf0df; }
+.launch-unlock { position: absolute; bottom: 4.3%; left: 15%; width: 70%; min-height: 44px; padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #f0f7e7; background: none; font-size: max(9px, calc(var(--phone-w) * .028)); letter-spacing: -.01em; transition: opacity .2s; }
+.launch-unlock > span { font-size: 17px; line-height: 1; }
+.launch-unlock:focus-visible { outline: 2px solid #c6dbaa; outline-offset: 2px; border-radius: 12px; }
+.launch-lock-actions { position: absolute; bottom: 11%; left: 9%; right: 9%; display: flex; justify-content: space-between; }
+.launch-lock-actions > span { display: grid; place-items: center; width: calc(var(--phone-w) * .115); height: calc(var(--phone-w) * .115); border-radius: 50%; background: #18312659; border: 1px solid #eef9da15; backdrop-filter: blur(10px); }
+.launch-lock-actions svg { width: 46%; height: 46%; }
+.launch-swipe-touch { position: absolute; left: calc(50% - 13px); bottom: 3%; width: 26px; height: 26px; border-radius: 50%; border: 1px solid #fff9; box-shadow: inset 0 0 0 7px #ffffff22; background: #ffffff66; opacity: 0; pointer-events: none; }
+.launch-swipe-trail { position: absolute; left: calc(50% - 1px); bottom: 5%; width: 2px; height: 16%; border-radius: 4px; background: linear-gradient(transparent, #f2ffdf80); transform-origin: bottom; opacity: 0; pointer-events: none; }
+.launch-scene[data-phase="swiping"] .launch-swipe-touch { animation: launch-swipe-up .4s cubic-bezier(.22,.68,.13,1) both; }
+.launch-scene[data-phase="swiping"] .launch-swipe-trail { animation: launch-swipe-trail .4s ease both; }
+.launch-scene:is([data-phase="swiping"], [data-phase="scanning"], [data-phase="verified"]) .launch-lock-content { transform: translateY(-12px); }
+.launch-scene:is([data-phase="swiping"], [data-phase="scanning"], [data-phase="verified"]) .launch-unlock { opacity: 0; pointer-events: none; }
+.launch-face-id { position: absolute; left: 0; right: 0; top: 57%; display: flex; flex-direction: column; align-items: center; gap: 11px; opacity: 0; transform: translateY(8px) scale(.92); color: #f1f8e9; transition: opacity .2s ease, transform .28s var(--ease), color .2s ease; }
+.launch-scene:is([data-phase="scanning"], [data-phase="verified"]) .launch-face-id { opacity: 1; transform: translateY(0) scale(1); }
+.launch-face-symbol { position: relative; width: calc(var(--phone-w) * .16); height: calc(var(--phone-w) * .16); }
+.launch-face-symbol svg { width: 100%; height: 100%; overflow: visible; }
+.launch-face-features { opacity: 1; transition: opacity .16s; }
+.launch-face-check { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; transition: stroke-dashoffset .26s var(--ease), opacity .14s; }
+.launch-face-id[data-verified="true"] { color: #d0efb3; }
+.launch-face-id[data-verified="true"] .launch-face-features { opacity: 0; }
+.launch-face-id[data-verified="true"] .launch-face-check { stroke-dashoffset: 0; opacity: 1; }
+.launch-face-label { font-size: calc(var(--phone-w) * .032); font-weight: 550; }
+.launch-face-scan { position: absolute; left: 10%; right: 10%; top: 14%; height: 1px; background: #e5ffd4; box-shadow: 0 0 10px 2px #d5ffbc55; opacity: 0; }
+.launch-scene[data-phase="scanning"] .launch-face-scan { animation: launch-face-scan .41s ease-in-out both; }
+@keyframes launch-swipe-up { 0% { opacity: 0; transform: translateY(0) scale(1.1); } 20% { opacity: 1; } 75% { opacity: .8; } 100% { opacity: 0; transform: translateY(calc(var(--phone-w) * -.42)) scale(.7); } }
+@keyframes launch-swipe-trail { 0% { opacity: 0; transform: scaleY(0); } 50% { opacity: .8; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(.7); } }
+@keyframes launch-face-scan { 0% { opacity: 0; transform: translateY(0); } 20%, 75% { opacity: .9; } 100% { opacity: 0; transform: translateY(calc(var(--phone-w) * .12)); } }
+
+/* The portrait sits among real project icons on a small, familiar home screen. */
+.launch-home-screen { position: absolute; inset: 0; z-index: 2; opacity: 0; transform: scale(1.06) translateY(10px); transition: opacity .28s ease, transform .36s var(--ease); pointer-events: none; }
+.launch-home-screen[data-visible="true"] { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+.launch-home-heading { position: absolute; top: 14%; left: 9%; }
+.launch-home-heading > span { font-family: var(--font-mono); font-size: calc(var(--phone-w) * .021); letter-spacing: .13em; color: #d1dfc9; }
+.launch-home-heading > strong { display: block; font-size: calc(var(--phone-w) * .085); line-height: 1.08; letter-spacing: -.055em; font-weight: 450; margin-top: 10px; }
+.launch-home-heading em { font-family: Georgia, serif; font-weight: 400; }
+.launch-app-grid { --launch-icon: calc(var(--phone-w) * .158); position: absolute; top: 40%; left: 7%; right: 7%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: calc(var(--phone-w) * .075) 6px; }
+.launch-grid-app { display: flex; flex-direction: column; align-items: center; min-width: 0; gap: 9px; }
+.launch-grid-app > img { background: #f5f8ef; width: var(--launch-icon); height: var(--launch-icon); border-radius: 25%; object-fit: cover; box-shadow: 0 4px 12px #0b251c33; }
+.launch-grid-app > span { font-size: calc(var(--phone-w) * .024); line-height: 1.2; color: #eff5e8; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.launch-home-dots { position: absolute; bottom: 23%; left: 0; right: 0; display: flex; gap: 5px; justify-content: center; }
+.launch-home-dots > i { width: 4px; height: 4px; border-radius: 50%; background: #eff9e140; }
+.launch-home-dots > i:first-child { background: #eff9e1; }
+.launch-home-dock { position: absolute; bottom: 6%; left: 5%; right: 5%; display: flex; justify-content: space-around; padding: calc(var(--phone-w) * .033) 5px; border-radius: calc(var(--phone-w) * .07); border: 1px solid #f1ffdb24; background: #e9f5dc26; backdrop-filter: blur(18px); }
+.launch-home-dock > span { display: grid; place-items: center; width: calc(var(--phone-w) * .14); height: calc(var(--phone-w) * .14); border-radius: 26%; background: #edf4e4; color: #345240; box-shadow: 0 3px 8px #1433251a; }
+.launch-home-dock svg { width: 49%; height: 49%; }
+.launch-scene[data-phase="tapping"] .launch-touch { animation: launch-touch-tap var(--tap-duration, .46s) var(--ease) both; }
+.launch-scene[data-phase="tapping"] .launch-ripple { animation: launch-ripple .38s .08s ease-out both; }
+.launch-scene[data-phase="tapping"] .launch-app-icon { animation: launch-icon-press var(--tap-duration, .46s) var(--ease) both; }
+.launch-scene[data-phase="opening"] { background: transparent; pointer-events: none; }
+.launch-scene[data-phase="opening"] .launch-atmosphere, .launch-scene[data-phase="opening"]::before, .launch-scene[data-phase="opening"] .launch-brand, .launch-scene[data-phase="opening"] .launch-background-type, .launch-scene[data-phase="opening"] .launch-caption, .launch-scene[data-phase="opening"] .launch-controls { opacity: 0; transition: opacity .4s ease; }
+.launch-scene[data-phase="opening"] .launch-device { animation: none; transform: translate(var(--launch-x, 0px), var(--launch-y, 0px)) translateZ(calc(var(--phone-half-depth) * -1)) scale(var(--launch-scale-x, 1), var(--launch-scale-y, 1)); }
+.launch-scene[data-phase="opening"] .launch-device-wrap { opacity: 0; }
+.launch-scene[data-phase="opening"] .launch-app-icon { opacity: 0; transition: none; }
+.launch-scene[data-phase="opening"] .launch-app-label { opacity: 0; transition: opacity .15s ease; }
+.launch-scene[data-phase="opening"] .launch-device-shadow { animation: none; opacity: 0; transition: opacity .35s; }
+@keyframes launch-shadow { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: scale(1); } }
+@keyframes launch-touch-tap { 0% { opacity: 0; transform: translate(62px, 75px) scale(1.2); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 55% { opacity: 1; transform: translate(-50%, -50%) scale(.7); } 78% { opacity: .7; transform: translate(-50%, -50%) scale(1.1); } 100% { opacity: 0; transform: translate(10px, 12px) scale(1.1); } }
+@keyframes launch-ripple { 0% { opacity: .8; transform: translate(-50%, -50%) scale(.6); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(3.4); } }
+@keyframes launch-icon-press { 0%, 25% { transform: scale(1); } 48% { transform: scale(.9); } 70% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@media (max-width: 640px) { .launch-scene { --phone-w: min(300px, calc(100vw - 72px), calc((100dvh - 170px) * .4793333333)); } .launch-brand { top: 22px; left: 22px; } .launch-brand > span:first-child { font-size: 23px; } .launch-brand > span:last-child { font-size: 6px; max-width: 130px; line-height: 1.8; } .launch-controls { top: 26px; right: 20px; } .launch-skip { padding: 10px 12px; font-size: 10px; gap: 12px; } .launch-background-type { display: none; } .launch-caption { bottom: 24px; font-size: 9px; gap: 10px; } .launch-caption-line { height: 16px; } }
+@media (max-height: 520px) { .launch-scene { --phone-w: min(190px, calc((100dvh - 65px) * .4793333333)); } .launch-caption { right: 30px; left: auto; bottom: 22px; align-items: flex-end; font-size: 8px; } .launch-caption-line { display: none; } .launch-brand { top: 20px; left: 24px; } .launch-controls { top: 20px; right: 24px; } .launch-background-type { font-size: 75px; } .launch-touch { width: 20px; height: 20px; } .launch-touch > span { inset: 6px; } }
+@media (max-width: 359px) { .launch-brand > span:last-child { max-width: 95px; } }
+@media (prefers-reduced-motion: reduce) { .launch-scene { display: none; } }

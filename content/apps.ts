@@ -15,6 +15,7 @@ export type App = {
   tagline: string;
   client: string;
   domain: string;
+  /** Google Play install band; not an active-user or workforce count. */
   installs: string;
   storeUrl: string;
   screenshots: number;
@@ -56,14 +57,14 @@ export const apps: App[] = [
   {
     slug: "hr-desk",
     name: "HR Desk",
-    tagline: "HR self-service and approvals for a 10k+ user workforce",
+    tagline: "HR self-service and approvals for LuLu Exchange",
     client: "LuLu Exchange",
     domain: "HR & Workforce",
     installs: "10,000+",
     storeUrl: "https://play.google.com/store/apps/details?id=com.hrdesk",
     screenshots: 5,
     summary:
-      "A workforce app built for LuLu Exchange, one of the largest remittance networks in the Gulf. Staff pull attendance and leave reports and review their own records; managers action leave and attendance approvals inline. Shipped to a workforce of over ten thousand users.",
+      "A workforce app built for LuLu Exchange. Staff view attendance and leave reports and review their own records, while managers handle leave and attendance approvals from the same app. It is listed in the 10,000+ install band on Google Play.",
     highlights: [
       "Leave and attendance approvals for managers",
       "Self-service reports and personal information",
@@ -194,7 +195,7 @@ export const apps: App[] = [
     highlights: [
       "Full product catalogue with categories",
       "Cart and checkout flow",
-      "Built for a established regional F&B brand",
+      "Built for an established regional F&B brand",
       "Ordering for bakery, cakes and desserts",
     ],
     stack: ["React Native", "Expo"],

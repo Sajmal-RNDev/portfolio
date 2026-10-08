@@ -1,0 +1,20 @@
+/* Original Apple Store image, body crop x356/y461, 680×1422.
+   Inset two source pixels to exclude the photograph's white backdrop. */
+.phone-back {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--phone-radius);
+  transform: rotateY(180deg) translateZ(var(--phone-half-depth));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #5a303c;
+}
+.phone-back > img {
+  position: absolute;
+  max-width: none;
+  width: 276.470588%;
+  height: 156.399437%;
+  left: -52.352941%;
+  top: -32.419128%;
+}
