@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { apps } from "@/content/apps";
 import { site } from "@/content/site";
 import BottomDock from "./BottomDock";
@@ -11,6 +11,7 @@ import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
 import ProjectScreen from "./ProjectScreen";
 import useDeviceClock from "./useDeviceClock";
+import { SCREEN_CLIP } from "./phone3d/dimensions";
 import useInterfaceSound, { CLICK_SOUND, PHONE_FLIP_SOUND } from "./useInterfaceSound";
 
 type Tab = "home" | "work" | "about" | "contact";
@@ -185,7 +186,7 @@ export default function PortfolioApp() {
     <div className="portfolio-stage" data-launch={launchActive ? launchRevealed ? "opening" : "waiting" : "done"} inert={launchActive} aria-hidden={launchActive}>
       <div className="desktop-identity" aria-hidden="true"><span>{site.name.toLowerCase()}.</span><span>A PORTFOLIO, IN YOUR POCKET.</span></div>
       <div className="desktop-note" aria-hidden="true"><span className="status-dot" /><span>{site.available ? site.availabilityText : "A selection of my work"}</span></div>
-      <div className="device-shell">
+      <div className="device-shell" style={{ "--phone-screen-clip": SCREEN_CLIP } as CSSProperties}>
         <main className="device-display" aria-label={`${site.name}’s portfolio`}>
           <div className="device-status" aria-hidden="true"><span><time dateTime={clock.dateTime || undefined} title={clock.label}>{clock.time}</time></span><span className="device-island" /><div className="device-status-icons"><svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor"><rect x="0" y="8" width="2.5" height="4" rx=".5"/><rect x="4" y="5" width="2.5" height="7" rx=".5"/><rect x="8" y="2" width="2.5" height="10" rx=".5"/><rect x="12" y="0" width="2.5" height="12" rx=".5"/></svg><svg width="16" height="12" viewBox="0 0 18 14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M2 4a11 11 0 0 1 14 0M5 7a6 6 0 0 1 8 0M8 10a1.5 1.5 0 0 1 2 0"/></svg><span className="device-battery" /></div></div>
           <div className="screen-stack" data-direction={direction}>

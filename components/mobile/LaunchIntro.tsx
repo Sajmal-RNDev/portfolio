@@ -6,6 +6,8 @@ import { site } from "@/content/site";
 import Icon from "@/components/Icon";
 import PhoneBack from "./PhoneBack";
 import PhoneEdges from "./PhoneEdges";
+import ThreePhone from "./ThreePhone";
+import { PHONE_SIZE, SCREEN_CLIP } from "./phone3d/dimensions";
 import type { DeviceClock } from "./useDeviceClock";
 import { CLICK_SOUND } from "./useInterfaceSound";
 import "./launch.css";
@@ -30,6 +32,9 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
 }) {
   const [phase, setPhase] = useState<Phase>("checking");
   const [isStarting, setIsStarting] = useState(false);
+  const [renderHardware, setRenderHardware] = useState(false);
+  const [hardwareReady, setHardwareReady] = useState(false);
+  const hardwareSettled = useRef<(() => void) | null>(null);
   const [expansion, setExpansion] = useState<CSSProperties>({});
   const phone = useRef<HTMLDivElement>(null);
   const phoneWrap = useRef<HTMLDivElement>(null);
@@ -46,6 +51,15 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
   const flipPlayed = useRef(false);
   const starting = useRef(false);
 
+  const revealHardware = useCallback(() => {
+    setHardwareReady(true);
+    hardwareSettled.current?.();
+  }, []);
+  const fallbackHardware = useCallback(() => {
+    setHardwareReady(false);
+    hardwareSettled.current?.();
+  }, []);
+
   const playTapOnce = useCallback(() => {
     if (tapPlayed.current || finished.current || opening.current) return;
     tapPlayed.current = true;
@@ -61,7 +75,9 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
   function syncFlipSound(event: AnimationEvent<HTMLDivElement>) {
     if (event.target !== phone.current || event.animationName !== "launch-phone-flip" || flipPlayed.current || finished.current) return;
     flipPlayed.current = true;
-    onFlip();
+    // The soft whoosh peaks 320 ms into its recording; center it on the
+    // 1400 ms turn's peak velocity without changing the requested sound level.
+    timers.current.push(setTimeout(() => { if (!finished.current) onFlip(); }, 380));
   }
 
   async function startExperience() {
@@ -174,7 +190,7 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
         const opacity = pose.opacity;
         animate(phone.current, [
           { transform },
-          { transform: `translate(${x}px, ${y}px) translateZ(${-from.width * 8.75 / 71.9 / 2}px) scale(${scaleX}, ${scaleY})` },
+          { transform: `translate(${x}px, ${y}px) translateZ(${-from.width * PHONE_SIZE.depth / PHONE_SIZE.width / 2}px) scale(${scaleX}, ${scaleY})` },
         ]);
         // Hold the phone until the real portfolio is visible underneath it.
         animate(phoneWrap.current!, [
@@ -249,6 +265,8 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
     }
     let cancelled = false;
     let focusFrame = 0;
+    const hardware = new Promise<void>(resolve => { hardwareSettled.current = resolve; });
+    setRenderHardware(true);
     const begin = () => {
       if (cancelled || finished.current) return;
       setPhase("back");
@@ -258,11 +276,12 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
     });
     // Preload the hardware images and both recordings before showing the phone.
     const artwork = Array.from(scene.current?.querySelectorAll<HTMLImageElement>(".phone-back img, .launch-front-art img") ?? []);
-    Promise.all([...artwork.map(image => image.decode()), preloadSounds()]).then(begin, () => { if (!cancelled) complete(); });
+    Promise.all([Promise.allSettled(artwork.map(image => image.decode())), preloadSounds(), hardware]).then(begin, () => { if (!cancelled) complete(); });
     const reduceNow = () => { if (motion.matches) complete(); };
     motion.addEventListener("change", reduceNow);
     return () => {
       cancelled = true;
+      hardwareSettled.current = null;
       clearTimers();
       // Cancel only after removal; cancelling a visible fill animation restores
       // the portrait's starting position and can flash it over the finished UI.
@@ -315,7 +334,7 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
   }
 
   return (
-    <div ref={scene} className="launch-scene" data-phase={phase} style={{ "--tap-duration": `${TAP_DURATION}ms` } as CSSProperties} role="dialog" aria-modal="true" aria-label={`Opening ${site.name}’s portfolio`} onKeyDown={handleKeys}>
+    <div ref={scene} className="launch-scene" data-phase={phase} data-hardware={hardwareReady ? "webgl" : "photo"} style={{ "--tap-duration": `${TAP_DURATION}ms`, "--phone-screen-clip": SCREEN_CLIP } as CSSProperties} role="dialog" aria-modal="true" aria-label={`Opening ${site.name}’s portfolio`} onKeyDown={handleKeys}>
       <div className="launch-atmosphere" aria-hidden="true"><span /><span /><span /></div>
       <div className="launch-brand"><span>{site.name.toLowerCase()}.</span><span>A LITTLE WORLD, ONE TAP AWAY.</span></div>
       <div className="launch-controls">
@@ -323,6 +342,7 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
         <button type="button" className="launch-skip" onClick={complete}>Skip intro <span aria-hidden="true">↗</span></button>
       </div>
       <div className="launch-background-type" aria-hidden="true"><span>A little</span><span>world.</span></div>
+      {renderHardware && <ThreePhone sceneRef={scene} phoneRef={phone} wrapperRef={phoneWrap} phase={phase} onReady={revealHardware} onUnavailable={fallbackHardware} />}
       <div className="launch-device-wrap" ref={phoneWrap}>
         <div className="launch-device" ref={phone} style={expansion} onAnimationStart={syncFlipSound} onAnimationEnd={advanceDevice}>
           <PhoneBack />

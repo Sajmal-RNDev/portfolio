@@ -1,0 +1,51 @@
+Device model and environment credits
+Sources checked October 8, 2026.
+
+Original three-dimensional device model
+The geometry in components/mobile/phone3d/model.ts was created for this
+portfolio. It is a nonofficial visualization of the Burgundy iPhone 18 Pro Max,
+not an Apple model or manufacturing CAD file. Its main enclosure measures
+77.98 x 163.43 x 8.75 mm, following Apple's accessory dimensional drawing,
+dated September 9, 2026, sheet 1 (PDF page 2):
+https://developer.apple.com/download/files/accessories/dimensional-drawings/iphone-18-pro-max.pdf
+The drawing specifies a 72.86 x 158.31 mm display active area, inset 2.56 mm
+from the housing, and 75.58 x 161.03 mm front cover glass. Detail A provides
+these corner coordinate pairs, measured inward from the bounding-box corner:
+(0,19.43), (0.04,13.90), (0.92,8.46), (3.80,3.80), (8.46,0.92),
+(13.90,0.04), (19.43,0), all in millimeters.
+The smooth curves between those points and their inward-offset contours are
+interpolated approximations authored for this portfolio, not supplied CAD.
+Apple's consumer specifications round the main dimensions to 78.0 x 163.4 mm:
+https://www.apple.com/iphone-18-pro/specs/
+Hardware details not dimensioned in that reference, optical interiors, and
+material settings remain visual estimates based on product photographs.
+The reference drawing is copyrighted by Apple and is not redistributed here.
+
+Studio lighting environment
+File: studio-small-09-1k.hdr
+Asset: Studio Small 09
+Creator: Sergej Majboroda / Poly Haven
+Source: https://polyhaven.com/a/studio_small_09
+Download:
+https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_09_1k.hdr
+License: CC0 1.0 Universal
+https://polyhaven.com/license
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Apple logo vector
+The Apple logo path used for the modeled rear inlay comes from Simple Icons:
+https://github.com/simple-icons/simple-icons/blob/develop/icons/apple.svg
+It is scaled and extruded into geometry for this visualization.
+Simple Icons distributes its collection under CC0 1.0 Universal:
+https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md
+CC0 does not grant trademark rights. Apple, the Apple logo, and iPhone are
+trademarks of Apple Inc. This portfolio is not affiliated with or endorsed
+by Apple.
+
+Existing photographic fallback artwork
+iphone-18-pro-burgundy-rear-source.jpg:
+https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-burgundy-202609?wid=1880&hei=2224&fmt=p-jpg&qlt=90
+iphone-18-pro-burgundy-front-source.jpg:
+https://www.apple.com/v/iphone-18-pro/c/images/overview/product-viewer/3d_viewer__hgotqf9hvvee_large_2x.jpg
+These photographs remain Apple imagery; the CC0 licenses above do not apply
+to them. They are used separately from the original WebGL geometry.

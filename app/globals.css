@@ -74,11 +74,11 @@ img { display: block; max-width: 100%; }
 .desktop-hint { position: absolute; bottom: 32px; right: 40px; font-size: 11px; color: var(--muted); line-height: 1.8; }
 .desktop-hint > span:first-child { display: block; font-family: var(--font-mono); letter-spacing: .12em; font-size: 7px; }
 .desktop-hint > span:last-child { display: inline-block; margin-left: 8px; }
-.device-shell { --device-w: min(430px, calc((100dvh - 48px) * .4793333333)); position: relative; width: var(--device-w); height: calc(var(--device-w) * 2.0862308762); padding: calc(var(--device-w) * .03876); border-radius: calc(var(--device-w) * .19); background: #38202a url('/device/iphone-18-pro-burgundy-front-source.jpg') 74.450085% 50.561798% / 558.139535% 141.395349% no-repeat; box-shadow: 0 32px 70px -25px #25151b66, 0 8px 20px -8px #25151b55; }
-.device-display { height: 100%; display: flex; flex-direction: column; position: relative; isolation: isolate; overflow: hidden; border-radius: calc(var(--device-w) * .1589); background: var(--bg); }
+.device-shell { --device-w: min(430px, calc((100dvh - 48px) * 0.4771461788)); position: relative; width: var(--device-w); height: calc(var(--device-w) * 2.0957937933); padding: calc(var(--device-w) * 0.0328289305); border-radius: calc(var(--device-w) * .19); background: #38202a url('/device/iphone-18-pro-burgundy-front-source.jpg') 74.450085% 50.561798% / 558.139535% 141.395349% no-repeat; box-shadow: 0 32px 70px -25px #25151b66, 0 8px 20px -8px #25151b55; }
+.device-display { height: 100%; display: flex; flex-direction: column; position: relative; isolation: isolate; overflow: hidden; border-radius: 0; clip-path: var(--phone-screen-clip); background: var(--bg); }
 .device-status { height: 49px; flex: 0 0 49px; display: flex; align-items: center; justify-content: space-between; padding: 3px 28px 0; position: relative; z-index: 5; background: var(--bg); }
 .device-status > span:first-child { font-size: 12px; font-weight: 650; letter-spacing: -.035em; }
-.device-island { position: absolute; width: calc(var(--device-w) * .22093); height: calc(var(--device-w) * .0891473); border-radius: 100px; top: calc(var(--device-w) * .02907); left: 50%; transform: translateX(-50%); background: #070608 url('/device/iphone-18-pro-burgundy-front-source.jpg') 70.824295% 17.639077% / 2526.315789% 3304.347826% no-repeat; }
+.device-island { position: absolute; width: calc(var(--device-w) * .2010771993); height: calc(var(--device-w) * .0778404719); border-radius: 100px; top: calc(var(--device-w) * .02907); left: 50%; transform: translateX(-50%); background: #070608 url('/device/iphone-18-pro-burgundy-front-source.jpg') 70.824295% 17.639077% / 2526.315789% 3304.347826% no-repeat; }
 .device-status-icons { display: flex; align-items: center; gap: 4px; }
 .device-battery { position: relative; width: 23px; height: 11px; border: 1px solid currentColor; border-radius: 3px; margin-left: 2px; }
 .device-battery::before { content: ""; position: absolute; inset: 1.5px; border-radius: 1px; background: currentColor; }
@@ -170,7 +170,7 @@ img { display: block; max-width: 100%; }
   .portfolio-stage { display: block; padding: 0; height: var(--app-height, 100dvh); background: var(--bg); }
   .portfolio-stage::before, .portfolio-stage::after, .desktop-identity, .desktop-note, .desktop-hint { display: none; }
   .device-shell { width: 100%; height: 100%; padding: 0; border-radius: 0; box-shadow: none; background: var(--bg); animation: none; }
-  .device-display { border-radius: 0; padding-top: env(safe-area-inset-top, 0px); }
+  .device-display { border-radius: 0; clip-path: none; padding-top: env(safe-area-inset-top, 0px); }
   .device-status, .device-home-area { display: none; }
   .mh-screen { padding-top: 20px; }
   .mw-screen, .ma-screen, .mc-screen { padding-top: 25px; }

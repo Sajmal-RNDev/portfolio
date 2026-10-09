@@ -32,7 +32,7 @@
 .phone-edge-right {
   --edge-x: 100%;
   --edge-y: 50%;
-  --edge-length: calc(var(--phone-w) * 2.0862308762 - var(--phone-radius) * 2 + .3px);
+  --edge-length: calc(var(--phone-w) * 2.0957937933 - var(--phone-radius) * 2 + .3px);
   --edge-angle: 90deg;
   --edge-light: .12;
 }
@@ -46,7 +46,7 @@
 .phone-edge-left {
   --edge-x: 0px;
   --edge-y: 50%;
-  --edge-length: calc(var(--phone-w) * 2.0862308762 - var(--phone-radius) * 2 + .3px);
+  --edge-length: calc(var(--phone-w) * 2.0957937933 - var(--phone-radius) * 2 + .3px);
   --edge-angle: 270deg;
   --edge-light: .24;
 }
