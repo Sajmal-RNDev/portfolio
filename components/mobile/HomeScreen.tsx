@@ -16,15 +16,14 @@ export default function HomeScreen({ onNavigate, onOpenProject, onReplay }: {
     <div className="mh-screen">
       <div className="mh-topbar"><span className="mh-wordmark">{site.name.toLowerCase()}<span>.</span></span><div className="mh-topbar-actions"><button type="button" className="icon-button replay-intro" onClick={onReplay} aria-label="Replay intro" title="Replay intro"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 10a9 9 0 1 1 1.5 7M3 4v6h6" /><path d="m10 8 6 4-6 4Z" strokeWidth="1.3" /></svg></button><ThemeToggle /></div></div>
       <div className="mh-intro">
-        <p className="eyebrow"><span className="status-dot" /> WELCOME TO MY LITTLE WORLD</p>
+        <p className="eyebrow"><span className="status-dot" /> SENIOR MOBILE DEVELOPER</p>
         <h1 data-screen-title tabIndex={-1}>A mobile mind.<br /><span>A maker at heart.</span></h1>
         <p>A look inside what I do, what I build,<br />and the person behind it all.</p>
       </div>
 
       <button className="mh-profile" onClick={() => onNavigate("about")} type="button" aria-label={`Meet ${site.name}, ${site.role}`}>
-        <div className="mh-profile-copy"><span className="mh-profile-hello">HEY, I’M</span><strong>{site.name}<span>↗</span></strong><span className="mh-profile-role">{site.role}</span><span className="mh-profile-location"><Icon name="globe" width="12" height="12" /> {site.location}</span></div>
+        <div className="mh-profile-copy"><span className="mh-profile-hello">HEY, I’M</span><strong>{site.name}</strong><span className="mh-profile-role">{site.role}</span><span className="mh-profile-location"><Icon name="globe" width="12" height="12" /> {site.location}</span></div>
         <img src="/portrait.webp" width="180" height="210" alt="" className="mh-portrait" />
-        <span className="mh-profile-star" aria-hidden="true">✳</span>
       </button>
 
       <div className="mh-quick-stats" aria-label="Experience at a glance"><div><strong>{String(apps.length).padStart(2, "0")}</strong><span>apps shipped</span></div><div><strong>{String(domains.length).padStart(2, "0")}</strong><span>industries</span></div><div><Icon name="code" width="27" height="27" /><span>React Native</span></div></div>

@@ -104,8 +104,9 @@ img { display: block; max-width: 100%; }
 .mh-topbar-actions { display: flex; align-items: center; gap: 7px; }
 .mh-wordmark { font-weight: 650; font-size: 23px; letter-spacing: -.065em; }
 .mh-wordmark > span { color: var(--accent); }
-.mh-intro > .eyebrow { margin: 0 0 12px; display: flex; gap: 8px; align-items: center; font-size: 7px; letter-spacing: .08em; }
-.mh-intro .status-dot { width: 4px; height: 4px; flex-basis: 4px; box-shadow: 0 0 0 3px #789c5d12; }
+.mh-intro > .eyebrow { margin: 0 0 12px; display: flex; gap: 8px; align-items: baseline; font-size: 7px; letter-spacing: .08em; }
+/* Center the dot on the capital letters, independent of the font's line spacing. */
+.mh-intro .status-dot { width: 4px; height: 4px; flex-basis: 4px; transform: translateY(calc(2px - .5cap)); box-shadow: 0 0 0 3px #789c5d12; }
 .mh-intro > h1 { font-weight: 600; font-size: 37px; letter-spacing: -.06em; line-height: 1.1; margin: 0; }
 .mh-intro > h1 > span { color: var(--accent); }
 .mh-intro > p:last-child { font-size: 13px; line-height: 1.7; color: var(--muted); margin: 12px 0 20px; }
@@ -114,11 +115,9 @@ img { display: block; max-width: 100%; }
 .mh-profile-copy { position: relative; z-index: 2; height: 100%; padding: 22px 20px; }
 .mh-profile-hello { font-family: var(--font-mono); font-size: 7px; letter-spacing: .14em; }
 .mh-profile-copy > strong { display: block; font-size: 31px; letter-spacing: -.065em; font-weight: 600; margin: 6px 0 4px; }
-.mh-profile-copy > strong > span { font-size: 18px; font-weight: 400; display: inline-block; margin-left: 8px; vertical-align: top; padding-top: 2px; }
 .mh-profile-role { display: block; font-size: 11px; color: #4c6040; }
 .mh-profile-location { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #4c6040; margin-top: 21px; }
 .mh-portrait { position: absolute; z-index: 1; top: 0; right: -4px; width: 51%; height: 100%; object-fit: cover; object-position: 53% center; mix-blend-mode: multiply; mask-image: linear-gradient(to right, transparent, black 27%); }
-.mh-profile-star { position: absolute; z-index: 2; top: 12px; right: 12px; font-size: 23px; line-height: 1; color: #e2edd4; }
 .mh-quick-stats { display: grid; grid-template-columns: repeat(3, 1fr); padding: 18px 0; margin: 15px 0 10px; }
 .mh-quick-stats > div { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
 .mh-quick-stats > div + div { border-left: 1px solid var(--line); }
