@@ -50,19 +50,14 @@
 .launch-ripple { position: absolute; top: calc(var(--launch-icon) * .5); left: 50%; width: 28px; height: 28px; border: 1px solid #f6ffe9; border-radius: 50%; opacity: 0; pointer-events: none; }
 .launch-home-indicator { position: absolute; z-index: 9; left: 35%; bottom: 1.8%; width: 30%; height: 3px; border-radius: 4px; background: #f3f5e6dd; }
 .launch-device-shadow { position: absolute; z-index: -1; width: 82%; height: 18px; border-radius: 50%; bottom: -26px; left: 9%; background: #040a0573; filter: blur(18px); animation: launch-shadow .5s var(--ease) both; }
-.launch-caption { position: absolute; bottom: 30px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 13px; color: #b5c1aa; font-size: 10px; letter-spacing: .01em; }
-.launch-caption-line { width: 1px; height: 22px; background: linear-gradient(transparent, #bbcaab75); }
+.launch-start-prompt { position: absolute; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; }
 .launch-scene[data-phase="ready"] .launch-device { transform: translateZ(calc(var(--phone-half-depth) * -1)) rotateX(-6deg) rotateY(198deg) rotateZ(-3deg); }
-.launch-scene[data-phase="ready"] .launch-caption-line { display: none; }
 .launch-start-device { position: absolute; z-index: 8; top: 50%; left: 50%; width: var(--phone-w); height: calc(var(--phone-w) * 2.0957937933); transform: translate(-50%, -50%); border-radius: calc(var(--phone-w) * .19); background: transparent; }
 .launch-start { display: inline-flex; align-items: center; justify-content: center; gap: 20px; min-height: 44px; padding: 12px 20px; border: 1px solid #c1d8aa55; border-radius: 30px; background: #c1d8aa; color: #20311e; font-size: 12px; font-weight: 550; transition: transform .2s, background .2s; }
 .launch-start:hover { background: #d3e7c0; }
 .launch-start:active { transform: scale(.96); }
 .launch-start:focus-visible, .launch-start-device:focus-visible { outline: 2px solid #c6dbaa; outline-offset: 6px; }
 .launch-start:disabled, .launch-start-device:disabled { cursor: progress; }
-.launch-steps { display: flex; gap: 5px; }
-.launch-steps > i { width: 16px; height: 2px; border-radius: 2px; background: #8296752b; transition: background .4s, width .4s var(--ease); }
-.launch-steps > i.is-active { background: #b2c99f; width: 26px; }
 .launch-app-expansion { position: absolute; z-index: 10; inset: 0; background: var(--bg); border-radius: inherit; transform-origin: 0 0; opacity: 0; pointer-events: none; will-change: transform; }
 .launch-shared-portrait { position: fixed; z-index: 20; top: 0; left: 0; transform-origin: 0 0; opacity: 0; pointer-events: none; will-change: transform, opacity; }
 .launch-shared-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -156,7 +151,7 @@
 .launch-scene[data-phase="tapping"] .launch-ripple { animation: launch-ripple .38s .08s ease-out both; }
 .launch-scene[data-phase="tapping"] .launch-app-icon { animation: launch-icon-press var(--tap-duration, .46s) var(--ease) both; }
 .launch-scene[data-phase="opening"] { background: transparent; pointer-events: none; }
-.launch-scene[data-phase="opening"] .launch-atmosphere, .launch-scene[data-phase="opening"]::before, .launch-scene[data-phase="opening"] .launch-brand, .launch-scene[data-phase="opening"] .launch-background-type, .launch-scene[data-phase="opening"] .launch-caption, .launch-scene[data-phase="opening"] .launch-controls { opacity: 0; transition: opacity .4s ease; }
+.launch-scene[data-phase="opening"] .launch-atmosphere, .launch-scene[data-phase="opening"]::before, .launch-scene[data-phase="opening"] .launch-brand, .launch-scene[data-phase="opening"] .launch-background-type, .launch-scene[data-phase="opening"] .launch-controls { opacity: 0; transition: opacity .4s ease; }
 .launch-scene[data-phase="opening"] .launch-device { animation: none; transform: translate(var(--launch-x, 0px), var(--launch-y, 0px)) translateZ(calc(var(--phone-half-depth) * -1)) scale(var(--launch-scale-x, 1), var(--launch-scale-y, 1)); }
 .launch-scene[data-phase="opening"] .launch-device-wrap { opacity: 0; }
 .launch-scene[data-phase="opening"] .launch-app-icon { opacity: 0; transition: none; }
@@ -166,7 +161,7 @@
 @keyframes launch-touch-tap { 0% { opacity: 0; transform: translate(62px, 75px) scale(1.2); } 35% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 55% { opacity: 1; transform: translate(-50%, -50%) scale(.7); } 78% { opacity: .7; transform: translate(-50%, -50%) scale(1.1); } 100% { opacity: 0; transform: translate(10px, 12px) scale(1.1); } }
 @keyframes launch-ripple { 0% { opacity: .8; transform: translate(-50%, -50%) scale(.6); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(3.4); } }
 @keyframes launch-icon-press { 0%, 25% { transform: scale(1); } 48% { transform: scale(.9); } 70% { transform: scale(1.05); } 100% { transform: scale(1); } }
-@media (max-width: 640px) { .launch-scene { --phone-w: min(300px, calc(100vw - 72px), calc((100dvh - 170px) * 0.4771461788)); } .launch-brand { top: 22px; left: 22px; } .launch-brand > span:first-child { font-size: 23px; } .launch-brand > span:last-child { font-size: 6px; max-width: 130px; line-height: 1.8; } .launch-controls { top: 26px; right: 20px; } .launch-skip { padding: 10px 12px; font-size: 10px; gap: 12px; } .launch-background-type { display: none; } .launch-caption { bottom: 24px; font-size: 9px; gap: 10px; } .launch-caption-line { height: 16px; } }
-@media (max-height: 520px) { .launch-scene { --phone-w: min(190px, calc((100dvh - 65px) * 0.4771461788)); } .launch-caption { right: 30px; left: auto; bottom: 22px; align-items: flex-end; font-size: 8px; } .launch-caption-line { display: none; } .launch-brand { top: 20px; left: 24px; } .launch-controls { top: 20px; right: 24px; } .launch-background-type { font-size: 75px; } .launch-touch { width: 20px; height: 20px; } .launch-touch > span { inset: 6px; } }
+@media (max-width: 640px) { .launch-scene { --phone-w: min(300px, calc(100vw - 72px), calc((100dvh - 170px) * 0.4771461788)); } .launch-brand { top: 22px; left: 22px; } .launch-brand > span:first-child { font-size: 23px; } .launch-brand > span:last-child { font-size: 6px; max-width: 130px; line-height: 1.8; } .launch-controls { top: 26px; right: 20px; } .launch-skip { padding: 10px 12px; font-size: 10px; gap: 12px; } .launch-background-type { display: none; } .launch-start-prompt { bottom: 24px; } }
+@media (max-height: 520px) { .launch-scene { --phone-w: min(190px, calc((100dvh - 65px) * 0.4771461788)); } .launch-start-prompt { right: 30px; left: auto; bottom: 22px; } .launch-brand { top: 20px; left: 24px; } .launch-controls { top: 20px; right: 24px; } .launch-background-type { font-size: 75px; } .launch-touch { width: 20px; height: 20px; } .launch-touch > span { inset: 6px; } }
 @media (max-width: 359px) { .launch-brand > span:last-child { max-width: 95px; } }
 @media (prefers-reduced-motion: reduce) { .launch-scene { display: none; } }

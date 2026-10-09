@@ -294,7 +294,6 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
 
   const isHome = phase === "home" || phase === "tapping" || phase === "opening";
   const isVerified = phase === "verified" || isHome;
-  const isUnlocking = phase === "swiping" || phase === "scanning" || isVerified;
   function beginSwipe(event: PointerEvent<HTMLDivElement>) {
     if (phase !== "locked" || (event.target as HTMLElement).closest("button")) return;
     clearTimers();
@@ -393,11 +392,9 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
       </div>
       {phase === "ready" && <button type="button" className="launch-start-device" onClick={startExperience} disabled={isStarting} aria-label="Tap the phone to start the portfolio" />}
       <div ref={sharedPortrait} className="launch-shared-portrait" aria-hidden="true"><img src="/portrait.webp" alt="" width="200" height="200" /></div>
-      <div className="launch-caption" aria-hidden={phase !== "ready"}>
-        <span className="launch-caption-line" />
-        {phase === "ready" ? <button type="button" className="launch-start" onClick={startExperience} disabled={isStarting}>{isStarting ? "Opening…" : "Tap to begin"} <span aria-hidden="true">↗</span></button> : <span>{phase === "opening" ? "Welcome to my world." : phase === "tapping" || phase === "home" ? "One tap. A whole portfolio." : phase === "verified" ? "You’re in. Make yourself at home." : phase === "swiping" || phase === "scanning" ? "A familiar gesture. A new perspective." : "A little detail. From every angle."}</span>}
-        <span className="launch-steps" aria-hidden="true"><i className="is-active" /><i className={isUnlocking ? "is-active" : ""} /><i className={isHome ? "is-active" : ""} /></span>
-      </div>
+      {phase === "ready" && <div className="launch-start-prompt">
+        <button type="button" className="launch-start" onClick={startExperience} disabled={isStarting}>{isStarting ? "Opening…" : "Tap to begin"} <span aria-hidden="true">↗</span></button>
+      </div>}
     </div>
   );
 }
