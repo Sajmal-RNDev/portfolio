@@ -16,7 +16,9 @@ type Phase = "checking" | "back" | "ready" | "flipping" | "locked" | "swiping" |
 const SESSION_KEY = "portfolio-intro-seen";
 const OPEN_DURATION = 1100;
 const OPEN_EASING = "cubic-bezier(.22,.68,.13,1)";
-const TAP_DURATION = 460;
+const HOME_REVEAL_AT = 950;
+const HOME_PAUSE = 700;
+const TAP_DURATION = 600;
 
 export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCancelSounds, isSoundReady, preloadSounds, primeSounds, onReveal, onComplete }: {
   replay?: boolean;
@@ -234,9 +236,9 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
     setPhase("swiping");
     timers.current.push(setTimeout(() => setPhase("scanning"), 270));
     timers.current.push(setTimeout(() => setPhase("verified"), 680));
-    timers.current.push(setTimeout(() => setPhase("home"), 950));
-    timers.current.push(setTimeout(() => setPhase("tapping"), 1330));
-    timers.current.push(setTimeout(openPortfolio, 1330 + TAP_DURATION));
+    timers.current.push(setTimeout(() => setPhase("home"), HOME_REVEAL_AT));
+    timers.current.push(setTimeout(() => setPhase("tapping"), HOME_REVEAL_AT + HOME_PAUSE));
+    timers.current.push(setTimeout(openPortfolio, HOME_REVEAL_AT + HOME_PAUSE + TAP_DURATION));
   }, [clearTimers, openPortfolio]);
 
   function advanceDevice(event: AnimationEvent<HTMLDivElement>) {

@@ -147,9 +147,9 @@
 .launch-home-dock { position: absolute; bottom: 6%; left: 5%; right: 5%; display: flex; justify-content: space-around; padding: calc(var(--phone-w) * .033) 5px; border-radius: calc(var(--phone-w) * .07); border: 1px solid #f1ffdb24; background: #e9f5dc26; backdrop-filter: blur(18px); }
 .launch-home-dock > span { display: grid; place-items: center; width: calc(var(--phone-w) * .14); height: calc(var(--phone-w) * .14); border-radius: 26%; background: #edf4e4; color: #345240; box-shadow: 0 3px 8px #1433251a; }
 .launch-home-dock svg { width: 49%; height: 49%; }
-.launch-scene[data-phase="tapping"] .launch-touch { animation: launch-touch-tap var(--tap-duration, .46s) var(--ease) both; }
-.launch-scene[data-phase="tapping"] .launch-ripple { animation: launch-ripple .38s .08s ease-out both; }
-.launch-scene[data-phase="tapping"] .launch-app-icon { animation: launch-icon-press var(--tap-duration, .46s) var(--ease) both; }
+.launch-scene[data-phase="tapping"] .launch-touch { animation: launch-touch-tap var(--tap-duration, .6s) var(--ease) both; }
+.launch-scene[data-phase="tapping"] .launch-ripple { animation: launch-ripple calc(var(--tap-duration, .6s) * .826) calc(var(--tap-duration, .6s) * .174) ease-out both; }
+.launch-scene[data-phase="tapping"] .launch-app-icon { animation: launch-icon-press var(--tap-duration, .6s) var(--ease) both; }
 .launch-scene[data-phase="opening"] { background: transparent; pointer-events: none; }
 .launch-scene[data-phase="opening"] .launch-atmosphere, .launch-scene[data-phase="opening"]::before, .launch-scene[data-phase="opening"] .launch-brand, .launch-scene[data-phase="opening"] .launch-background-type, .launch-scene[data-phase="opening"] .launch-controls { opacity: 0; transition: opacity .4s ease; }
 .launch-scene[data-phase="opening"] .launch-device { animation: none; transform: translate(var(--launch-x, 0px), var(--launch-y, 0px)) translateZ(calc(var(--phone-half-depth) * -1)) scale(var(--launch-scale-x, 1), var(--launch-scale-y, 1)); }
