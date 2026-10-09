@@ -119,7 +119,8 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
     opening.current = true;
     clearTimers();
     const from = phoneWrap.current?.getBoundingClientRect();
-    const target = document.querySelector(".device-shell")?.getBoundingClientRect();
+    const targetElement = document.querySelector<HTMLElement>(".device-shell");
+    const target = targetElement?.getBoundingClientRect();
     const icon = scene.current?.querySelector<HTMLElement>(".launch-app-icon");
     const sourceImage = icon?.getBoundingClientRect();
     const destinationImage = document.querySelector<HTMLElement>(".mh-portrait");
@@ -175,15 +176,23 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
     }
 
     if (from && target) {
-      const x = target.x + target.width / 2 - (from.x + from.width / 2);
-      const y = target.y + target.height / 2 - (from.y + from.height / 2);
-      const scaleX = target.width / from.width;
-      const scaleY = target.height / from.height;
+      const fullScreen = targetElement && getComputedStyle(targetElement).borderTopLeftRadius === "0px";
+      const display = document.querySelector<HTMLElement>(".device-display");
+      const displayStyle = display ? getComputedStyle(display) : null;
+      const top = fullScreen ? (parseFloat(displayStyle?.paddingTop ?? "0") || 0) + 16 : 0;
+      const left = fullScreen ? (parseFloat(displayStyle?.paddingLeft ?? "0") || 0) + 16 : 0;
+      const right = fullScreen ? (parseFloat(displayStyle?.paddingRight ?? "0") || 0) + 16 : 0;
+      const dock = document.querySelector<HTMLElement>(".dock-area");
+      const bottom = fullScreen ? Math.max(16, parseFloat(dock ? getComputedStyle(dock).paddingBottom : "0") || 0) : 0;
+      // The hardware always scales uniformly and stays inside the safe viewport.
+      // The accessible app surface fills the screen underneath this crossfade.
+      const scale = Math.min((target.width - left - right) / from.width, (target.height - top - bottom) / from.height);
+      const x = target.x + (target.width + left - right) / 2 - (from.x + from.width / 2);
+      const y = target.y + (target.height + top - bottom) / 2 - (from.y + from.height / 2);
       setExpansion({
         "--launch-x": `${x}px`,
         "--launch-y": `${y}px`,
-        "--launch-scale-x": scaleX,
-        "--launch-scale-y": scaleY,
+        "--launch-scale": scale,
       } as CSSProperties);
       // Continue from the current pose, including an early tap during arrival.
       if (phone.current) {
@@ -192,7 +201,7 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
         const opacity = pose.opacity;
         animate(phone.current, [
           { transform },
-          { transform: `translate(${x}px, ${y}px) translateZ(${-from.width * PHONE_SIZE.depth / PHONE_SIZE.width / 2}px) scale(${scaleX}, ${scaleY})` },
+          { transform: `translate(${x}px, ${y}px) translateZ(${-from.width * PHONE_SIZE.depth / PHONE_SIZE.width / 2 * scale}px) scale3d(${scale}, ${scale}, ${scale})` },
         ]);
         // Hold the phone until the real portfolio is visible underneath it.
         animate(phoneWrap.current!, [
@@ -216,6 +225,14 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
       ...(scene.current?.getAnimations({ subtree: true }) ?? []),
       ...(document.querySelector(".portfolio-stage")?.getAnimations({ subtree: true }) ?? []),
     ].filter(animation => animation.effect?.getComputedTiming().iterations !== Infinity);
+    // Measured destinations become stale on rotation or a fold/unfold. Finish
+    // the visible handoff together instead of stretching toward the old bounds.
+    const fitNewViewport = () => {
+      animations.forEach(animation => {
+        try { animation.finish(); } catch { /* A detached animation has no visible work left. */ }
+      });
+    };
+    window.addEventListener("resize", fitNewViewport);
 
     void Promise.allSettled(animations.map(animation => animation.finished)).then(() => {
       if (cancelled || finished.current) return;
@@ -226,7 +243,11 @@ export default function LaunchIntro({ replay = false, clock, onTap, onFlip, onCa
         });
       });
     });
-    return () => { cancelled = true; cancelAnimationFrame(paintFrame); };
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(paintFrame);
+      window.removeEventListener("resize", fitNewViewport);
+    };
   }, [phase, complete]);
 
   const unlock = useCallback(() => {

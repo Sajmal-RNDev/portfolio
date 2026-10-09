@@ -90,9 +90,18 @@
   .app-dock-link:hover .app-dock-icon { transform: translateY(-2px); }
 }
 
-@media (max-width: 640px), (max-height: 560px) and (pointer: coarse) {
-  .dock-area { padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); }
+@media (max-width: 640px), (pointer: coarse) {
+  .dock-area { padding: 8px 12px calc(8px + var(--safe-bottom)); }
+  .app-dock { max-width: 480px; margin-inline: auto; }
   .app-dock-label { font-size: 10px; }
+}
+
+@media (max-height: 560px) and (pointer: coarse) {
+  .dock-area { padding-top: 5px; padding-bottom: calc(5px + var(--safe-bottom)); }
+  .app-dock { padding: 4px; }
+  .app-dock-link { min-height: 44px; flex-direction: row; gap: 7px; }
+  .app-dock-selection { inset-block: 4px; left: 4px; width: calc((100% - 8px) / 4); }
+  .app-dock-icon { width: 21px; height: 21px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

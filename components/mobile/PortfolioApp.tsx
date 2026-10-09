@@ -13,6 +13,8 @@ import ProjectScreen from "./ProjectScreen";
 import useDeviceClock from "./useDeviceClock";
 import { SCREEN_CLIP } from "./phone3d/dimensions";
 import useInterfaceSound, { CLICK_SOUND, PHONE_FLIP_SOUND } from "./useInterfaceSound";
+import useDeviceLayout from "./useDeviceLayout";
+import MobileOrientationNotice from "./MobileOrientationNotice";
 
 type Tab = "home" | "work" | "about" | "contact";
 type Route = Tab | `project/${string}`;
@@ -32,6 +34,7 @@ function parseRoute(hash: string): Route {
 }
 
 export default function PortfolioApp() {
+  const { ready: layoutReady, portraitRequired, allowFoldable } = useDeviceLayout();
   const clock = useDeviceClock();
   const { play: playTap, cancel: cancelTap, isReady: isTapReady, preload: preloadTap, primeAudio: primeTap } = useInterfaceSound(CLICK_SOUND.src);
   const { play: playFlip, cancel: cancelFlip, isReady: isFlipReady, preload: preloadFlip, primeAudio: primeFlip } = useInterfaceSound(PHONE_FLIP_SOUND.src);
@@ -53,6 +56,7 @@ export default function PortfolioApp() {
   const focusFrame = useRef<number | null>(null);
   const backFocus = useRef<HTMLElement | null>(null);
   const initialLoad = useRef(true);
+  const wasPortraitRequired = useRef(false);
 
   const revealLaunch = useCallback(() => setLaunchRevealed(true), []);
   const completeLaunch = useCallback(() => {
@@ -68,6 +72,16 @@ export default function PortfolioApp() {
     setLaunchRevealed(false);
     setLaunchActive(true);
   }, []);
+
+  useEffect(() => {
+    if (portraitRequired) {
+      cancelSounds();
+      if (launchActive) setLaunchRevealed(false);
+    } else if (wasPortraitRequired.current && !launchActive) {
+      screenRefs.current.get(panelKey(routeRef.current))?.querySelector<HTMLElement>("[data-screen-title]")?.focus({ preventScroll: true });
+    }
+    wasPortraitRequired.current = portraitRequired;
+  }, [portraitRequired, cancelSounds, launchActive]);
 
   const changeScreen = useCallback((next: Route, backwards = false, initial = false) => {
     const previous = routeRef.current;
@@ -93,18 +107,47 @@ export default function PortfolioApp() {
 
   useEffect(() => {
     const viewport = window.visualViewport;
+    const layout = matchMedia("(max-width: 640px), (pointer: coarse)");
+    const root = document.documentElement;
+    let frame = 0;
+    let revealField = false;
     const fitViewport = () => {
-      if (viewport && viewport.scale === 1 && matchMedia("(max-width: 640px), (max-height: 560px) and (pointer: coarse)").matches) {
-        document.documentElement.style.setProperty("--app-height", `${viewport.height}px`);
-      } else document.documentElement.style.removeProperty("--app-height");
+      frame = 0;
+      if (!layout.matches) {
+        root.style.removeProperty("--app-height");
+        root.style.removeProperty("--app-offset-top");
+        return;
+      }
+      // Preserve the layout when visitors pinch-zoom; only follow browser chrome
+      // and keyboard movement at the page's normal scale.
+      if (viewport && Math.abs(viewport.scale - 1) > .01) return;
+      root.style.setProperty("--app-height", `${viewport?.height ?? window.innerHeight}px`);
+      root.style.setProperty("--app-offset-top", `${viewport?.offsetTop ?? 0}px`);
+      if (revealField) {
+        revealField = false;
+        const active = document.activeElement;
+        if (active instanceof HTMLElement && active.matches("input, textarea, [contenteditable=true]")) {
+          active.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+        }
+      }
     };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(fitViewport); };
+    const resize = () => { revealField = true; schedule(); };
     fitViewport();
-    viewport?.addEventListener("resize", fitViewport);
-    window.addEventListener("resize", fitViewport);
+    viewport?.addEventListener("resize", resize);
+    viewport?.addEventListener("scroll", schedule);
+    window.addEventListener("resize", resize);
+    layout.addEventListener("change", resize);
+    document.addEventListener("focusin", resize);
     return () => {
-      viewport?.removeEventListener("resize", fitViewport);
-      window.removeEventListener("resize", fitViewport);
-      document.documentElement.style.removeProperty("--app-height");
+      cancelAnimationFrame(frame);
+      viewport?.removeEventListener("resize", resize);
+      viewport?.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", resize);
+      layout.removeEventListener("change", resize);
+      document.removeEventListener("focusin", resize);
+      root.style.removeProperty("--app-height");
+      root.style.removeProperty("--app-offset-top");
     };
   }, []);
 
@@ -182,8 +225,9 @@ export default function PortfolioApp() {
 
   return (
     <>
-    {launchActive && <LaunchIntro key={launchRun} replay={launchRun > 0} clock={clock} onTap={playTap} onFlip={playFlip} onCancelSounds={cancelSounds} isSoundReady={isSoundReady} preloadSounds={preloadSounds} primeSounds={primeSounds} onReveal={revealLaunch} onComplete={completeLaunch} />}
-    <div className="portfolio-stage" data-launch={launchActive ? launchRevealed ? "opening" : "waiting" : "done"} inert={launchActive} aria-hidden={launchActive}>
+    {portraitRequired && <MobileOrientationNotice onAllowFoldable={allowFoldable} />}
+    {layoutReady && !portraitRequired && launchActive && <LaunchIntro key={launchRun} replay={launchRun > 0} clock={clock} onTap={playTap} onFlip={playFlip} onCancelSounds={cancelSounds} isSoundReady={isSoundReady} preloadSounds={preloadSounds} primeSounds={primeSounds} onReveal={revealLaunch} onComplete={completeLaunch} />}
+    <div className="portfolio-stage" data-orientation-blocked={portraitRequired} data-launch={launchActive ? launchRevealed ? "opening" : "waiting" : "done"} inert={launchActive || portraitRequired} aria-hidden={launchActive || portraitRequired}>
       <div className="desktop-identity" aria-hidden="true"><span>{site.name.toLowerCase()}.</span><span>A PORTFOLIO, IN YOUR POCKET.</span></div>
       <div className="desktop-note" aria-hidden="true"><span className="status-dot" /><span>{site.available ? site.availabilityText : "A selection of my work"}</span></div>
       <div className="device-shell" style={{ "--phone-screen-clip": SCREEN_CLIP } as CSSProperties}>

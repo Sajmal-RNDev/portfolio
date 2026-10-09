@@ -24,7 +24,7 @@ export default function ProjectScreen({ app, onBack }: { app: App; onBack: () =>
     const first = rail.children[0] as HTMLElement;
     const next = rail.children[1] as HTMLElement | undefined;
     if (!first || !next) return;
-    setActiveScreenshot(Math.min(app.screenshots - 1, Math.round(rail.scrollLeft / (next.offsetLeft - first.offsetLeft))));
+    setActiveScreenshot(Math.max(0, Math.min(app.screenshots - 1, Math.round(rail.scrollLeft / (next.offsetLeft - first.offsetLeft)))));
   }
 
   return (
@@ -59,6 +59,7 @@ export default function ProjectScreen({ app, onBack }: { app: App; onBack: () =>
           </div>
           <div className="mp-gallery-controls">
             <button type="button" onClick={() => goToScreenshot(activeScreenshot - 1)} disabled={activeScreenshot === 0} aria-label="Previous screenshot">←</button>
+            <span className="mp-gallery-position" aria-hidden="true">{activeScreenshot + 1} / {app.screenshots}</span>
             <div className="mp-gallery-dots" aria-label="Choose a screenshot">
               {Array.from({ length: app.screenshots }, (_, index) => <button type="button" key={index} onClick={() => goToScreenshot(index)} aria-label={`Show screenshot ${index + 1}`} aria-current={activeScreenshot === index ? "true" : undefined}><span /></button>)}
             </div>
